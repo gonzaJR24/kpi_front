@@ -26,7 +26,7 @@
             <td>{{item.sucursal.nombreSucursal|json}}</td>
             <td class="d-flex justify-content-center">
                 <button class="btn btn-warning mx-3" (click)="EditAreaAlert($event)">Editar</button>
-                <button class="btn btn-danger">Eliminar</button>
+                <button class="btn btn-danger" (click)="showDeleteAlert($event, item.id)">Eliminar</button>
             </td>
           </tr>
         </tbody>

@@ -32,7 +32,7 @@
                 <td>{{item.fechaCreacion}}</td>
                 <td class="d-flex justify-content-center">
                     <button class="btn btn-warning mx-3" (click)="EditUserlert($event)">Editar</button>
-                    <button class="btn btn-danger mx-3">Eliminar</button>
+                    <button class="btn btn-danger mx-3" (click)="showDeleteAlert($event, item.id)">Eliminar</button>
                 </td>
             </tr>
         </tbody>

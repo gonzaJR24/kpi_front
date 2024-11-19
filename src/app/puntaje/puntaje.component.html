@@ -2,7 +2,7 @@
 <div class="container">
     <h2 class="text-center mt-3">Asignacion Puntajes</h2>
 
-    <button class="btn btn-success mb-3">Evaluar Empleado</button>
+    <button class="btn btn-success mb-3" (click)="addPuntajeAlert($event)">Evaluar Empleado</button>
 
     <table class="table table-hover table-bordered">
         <thead>
@@ -36,7 +36,7 @@
             <td>{{item.comentario}}</td>
             <td class="d-flex">
                 <button class="btn btn-warning mx-3" (click)="EditPuntajeAlert($event)">Editar</button>
-                <button class="btn btn-danger mx-3">Eliminar</button>
+                <button class="btn btn-danger mx-3" (click)="showDeleteAlert($event, item.id)">Eliminar</button>
             </td>
           </tr>
         </tbody>

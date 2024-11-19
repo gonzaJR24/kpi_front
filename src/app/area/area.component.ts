@@ -199,6 +199,33 @@ export class AreaComponent implements OnInit{
       }
     });
   }
+
+  showDeleteAlert(e: Event, id: number) {
+    e.preventDefault()
+    const url = (this.env.criterio as any).deleteUserServer + id
+    Swal.fire({
+      title: "Esta seguro?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "red",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si,eliminar"
+    }).then((result) => {
+      // This block will run after SweetAlert is closed, so no further code will execute until modal is closed
+      if (result.isConfirmed) {
+        this.http.delete(url).subscribe({
+          error: () => {
+            Swal.fire(`Usuario eliminado`, 'success');
+            setTimeout(() => {
+              this.ngOnInit();
+            }, 1000);
+          }
+        });
+
+      }
+    });
+  }
   
 
 }
