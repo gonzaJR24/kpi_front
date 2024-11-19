@@ -96,7 +96,7 @@ export class CriterioComponent implements OnInit{
   }
 
   addCriterioAlert(e: Event) {
-    const url=(this.env.sucursal as any).urlLocal;
+    const url=(this.env.areas as any).urlLocal;
     this.http.get(url).subscribe(response=>{
       this.data=response;
     });
@@ -104,7 +104,7 @@ export class CriterioComponent implements OnInit{
     let optionsHtml!:string;
     this.data.forEach((item: any) => {
       if(item!=null){
-        optionsHtml += `<option value="${item.id}">${item.nombreSucursal}</option>`;
+        optionsHtml += `<option value="${item.id}">${item.nombreArea}</option>`;
       }
     });
 
@@ -122,9 +122,13 @@ export class CriterioComponent implements OnInit{
             <label for="valor" class="form-label">Valor</label>
             <input type="number" class="form-control" id="valor" name='valor'>
           </div>
+
           <div class="mb-3">
-            <label for="area" class="form-label">Area</label>
-            <input type="text" class="form-control" id="area" name='area'>
+            <label for="sucursal" class="form-label">Area</label>
+            <select class="form-select" id="area" name='area'>
+              <option selected>--seleccione--</option>
+              ${optionsHtml}
+            </select>
           </div>
         
           <button type="submit" class="btn btn-primary" id='btn'>Enviar</button>

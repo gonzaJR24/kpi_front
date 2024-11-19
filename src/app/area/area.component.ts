@@ -61,9 +61,12 @@ export class AreaComponent implements OnInit{
           </div>
 
           <div class="mb-3">
-            <label for="sucursal" class="form-label">Sucursal</label>
-            <input type="text" class="form-control" id="sucursal" name='sucursal'>
-          </div
+            <label for="sucursal" class="form-label">sucursal</label>
+            <select class="form-select" id="sucursal" name='sucursal'>
+              <option selected>--seleccione--</option>
+              ${optionsHtml}
+            </select>
+          </div>
         
           <div>
           <button type="submit" class="btn btn-primary" id='btn'>Enviar</button>
@@ -111,6 +114,7 @@ export class AreaComponent implements OnInit{
   }
 
    addAreaAlert(e: Event) {
+
     const url=(this.env.sucursal as any).urlLocal;
     this.http.get(url).subscribe(response=>{
       this.data=response;
@@ -151,9 +155,12 @@ export class AreaComponent implements OnInit{
           </div>
 
           <div class="mb-3">
-            <label for="sucursal" class="form-label">Sucursal</label>
-            <input type="text" class="form-control" id="sucursal" name='sucursal'>
-          </div
+            <label for="sucursal" class="form-label">sucursal</label>
+            <select class="form-select" id="sucursal" name='sucursal'>
+              <option selected>--seleccione--</option>
+              ${optionsHtml}
+            </select>
+          </div>
         
           <div>
           <button type="submit" class="btn btn-primary" id='btn'>Enviar</button>

@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 export class UsuarioComponent implements OnInit{
   usuarios:any;
   data:any;
+  tipoUsuario:any;
   constructor(private http:HttpClient, private env:EnvironmentService){}
 
   ngOnInit(): void {
@@ -22,14 +23,28 @@ export class UsuarioComponent implements OnInit{
 
   AddAUserlert(e: Event) {
     const url=(this.env.sucursal as any).urlLocal;
+    const urlTipoUsuario=(this.env.tipoUsuario as any).urlLocal;
+
     this.http.get(url).subscribe(response=>{
       this.data=response;
     });
+
+    this.http.get(urlTipoUsuario).subscribe(response=>{
+      this.tipoUsuario=response;
+    });
     
     let optionsHtml!:string;
+    let tipoUsuarioHtml!:string;
+
     this.data.forEach((item: any) => {
       if(item!=null){
         optionsHtml += `<option value="${item.id}">${item.nombreSucursal}</option>`;
+      }
+    });
+
+    this.tipoUsuario.forEach((item: any) => {
+      if(item!=null){
+        tipoUsuarioHtml += `<option value="${item.id}">${item.tipoUsuario}</option>`;
       }
     });
 
@@ -62,14 +77,15 @@ export class UsuarioComponent implements OnInit{
             <label for="password" class="form-label">Contrasena</label>
             <input type="text" class="form-control" id="password" name='password'>
           </div>
+
           <div class="mb-3">
             <label for="tipoUsuario" class="form-label">Tipo Usuario</label>
             <select class="form-select" id="tipoUsuario" name='tipoUsuario'>
               <option selected>--seleccione--</option>
-              <option value="STANDARD">STANDARD</option>
-              <option value="ADMIN">ADMIN</option>
+              ${tipoUsuarioHtml}
             </select>
           </div>
+
           <div class="mb-3">
             <label for="correo" class="form-label">Correo</label>
             <input type="email" class="form-control" id="correo" name='correo'>

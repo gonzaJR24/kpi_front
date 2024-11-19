@@ -30,4 +30,8 @@ export class EnvironmentService {
   sucursal:object={
     urlLocal:"http://localhost:8080/api/sucursal"
   }
+
+  tipoUsuario:object={
+    urlLocal:"http://localhost:8080/api/tipo_usuario"
+  }
 }

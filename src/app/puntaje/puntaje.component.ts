@@ -125,15 +125,17 @@ export class PuntajeComponent implements OnInit {
   }
 
   addPuntajeAlert(e: Event) {
-    const url = (this.env.sucursal as any).urlLocal;
+    const url = (this.env.empleados as any).urlLocal;
     this.http.get(url).subscribe(response => {
       this.data = response;
     });
 
+
     let optionsHtml!: string;
+
     this.data.forEach((item: any) => {
       if (item != null) {
-        optionsHtml += `<option value="${item.id}">${item.nombreSucursal}</option>`;
+        optionsHtml += `<option value="${item.id}">${item.nombre + " " + item.apellido}</option>`;
       }
     });
 
@@ -144,9 +146,12 @@ export class PuntajeComponent implements OnInit {
       html: `
         <form id="editPuntajeForm">
 
-        <div class="mb-3">
-            <label for="actitudes" class="form-label">Empleado</label>
-            <input type="string" class="form-control" id="empleado" name='empleado'>
+          <div class="mb-3">
+            <label for="sucursal" class="form-label">sucursal</label>
+            <select class="form-select" id="sucursal" name='sucursal'>
+              <option selected>--seleccione--</option>
+              ${optionsHtml}
+            </select>
           </div>
 
           <div class="mb-3">
