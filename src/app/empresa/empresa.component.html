@@ -1,0 +1,30 @@
+<app-home></app-home>
+<div class="container">
+    <div class="d-flex justify-content-center mt-3">
+        <img [src]="imgUrl" placeholder="img" alt="" class="" width="200" height="80">
+    </div>
+    
+    <form>
+        <div class="input_wrapper mt-4">
+            <div class="mb-3">
+                <label for="nombreEmpresa" class="form-label">Nombre Empresa:</label>
+                <input type="text" class="form-control" id="nombreEmpresa" value="Medilink">
+            </div>
+            <div class="mb-3">
+                <label for="progresoEsperado" class="form-label">Progreso Esperado:</label>
+                <input type="number" class="form-control" id="progresoEsperado">
+            </div>
+            <div class="mb-3">
+                <label for="progresoObtenido" class="form-label">Progreso Obtenido:</label>
+                <input type="number" class="form-control" id="progresoObtenido">
+            </div>
+            <!-- <label for="sucursal" class="form-label">Sucursal</label>
+            <select class="form-select form-select-sm mb-3" id="sucursal">
+                <option selected>--seleccione sucursal--</option>
+                <option value="1">Medilink Charles</option>
+                <option value="2">Medilink Sabana Perdida</option>
+              </select> -->
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </div>
+    </form>
+</div>

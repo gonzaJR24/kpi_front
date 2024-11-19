@@ -1,0 +1,44 @@
+<app-home></app-home>
+<div class="container">
+    <h2 class="text-center mt-3">Asignacion Puntajes</h2>
+
+    <button class="btn btn-success mb-3">Evaluar Empleado</button>
+
+    <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Empleado</th> 
+            <th scope="col">Fecha Evaluacion</th>
+            <th scope="col">Actitudes</th>
+            <th scope="col">Puntualidad</th>
+            <th scope="col">Calificacion Lider</th>
+            <th scope="col">NPS</th>
+            <th scope="col">Especifico 1</th>
+            <th scope="col">Especifico 2</th>
+            <th scope="col">Puntaje Total</th>
+            <th scope="col">Comentario</th>
+            <th scope="col" class="text-center">Funciones</th>
+
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of puntajes">
+            <th scope="row">{{(item.empleado.nombre+" "+item.empleado.apellido)|json}}</th>
+            <td>{{item.fechaEvaluacion}}</td>
+            <td>{{item.actitudesGestionComportamiento}}</td>
+            <td>{{item.ausenciaPuntualidad}}</td>
+            <td>{{item.calificacionLider}}</td>
+            <td>{{item.nps}}</td>
+            <td>{{item.especifico1}}</td>
+            <td>{{item.especifico2}}</td>
+            <td>{{item.puntajeTotal}}</td>
+            <td>{{item.comentario}}</td>
+            <td class="d-flex">
+                <button class="btn btn-warning mx-3" (click)="EditPuntajeAlert($event)">Editar</button>
+                <button class="btn btn-danger mx-3">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>
