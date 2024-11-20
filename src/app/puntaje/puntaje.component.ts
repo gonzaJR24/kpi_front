@@ -19,7 +19,7 @@ export class PuntajeComponent implements OnInit {
     })
   }
 
-  EditPuntajeAlert(e: Event) {
+  EditPuntajeAlert(e: Event, puntaje: any) {
     const url = (this.env.sucursal as any).urlLocal;
     this.http.get(url).subscribe(response => {
       this.data = response;
@@ -41,42 +41,37 @@ export class PuntajeComponent implements OnInit {
 
           <div class="mb-3">
             <label for="actitudes" class="form-label">Actitudes</label>
-            <input type="number" class="form-control" id="actitudes" name='actitudes' min='0' max='10'>
+            <input type="number" class="form-control" id="actitudes" name='actitudes' min='0' max='10' value="${puntaje.actitudesGestionComportamiento}">
           </div>
 
           <div class="mb-3">
             <label for="puntualidad" class="form-label">Puntualidad</label>
-            <input type="number" class="form-control" id="puntualidad" name='puntualidad' min='0' max='10'>
+            <input type="number" class="form-control" id="puntualidad" name='puntualidad' min='0' max='10' value="${puntaje.ausenciaPuntualidad}">
           </div>
 
           <div class="mb-3">
             <label for="calificacionLider" class="form-label">Calificacion Lider</label>
-            <input type="number" class="form-control" id="calificacionLider" name='calificacionLider' min='0' max='10'>
+            <input type="number" class="form-control" id="calificacionLider" name='calificacionLider' min='0' max='10' value="${puntaje.calificacionLider}">
           </div>
 
           <div class="mb-3">
             <label for="nps" class="form-label">NPS</label>
-            <input type="number" class="form-control" id="nps" name='nps' min='0' max='10'>
+            <input type="number" class="form-control" id="nps" name='nps' min='0' max='10' value="${puntaje.nps}">
           </div>
 
           <div class="mb-3">
             <label for="especifico1" class="form-label">Especifico 1</label>
-            <input type="number" class="form-control" id="especifico1" name='especifico1' min='0' max='10'>
+            <input type="number" class="form-control" id="especifico1" name='especifico1' min='0' max='10' value="${puntaje.especifico1}">
           </div>
 
           <div class="mb-3">
             <label for="especifico2" class="form-label">Especifico 2</label>
-            <input type="number" class="form-control" id="especifico2" name='especifico2' min='0' max='10'>
-          </div>
-
-          <div class="mb-3">
-            <label for="puntajeTotal" class="form-label">Puntaje Total</label>
-            <input type="number" class="form-control" id="puntajeTotal" name='puntajeTotal' min='0' max='10'>
+            <input type="number" class="form-control" id="especifico2" name='especifico2' min='0' max='10' value="${puntaje.especifico2}">
           </div>
 
           <div class="mb-3">
             <label for="comentario" class="form-label">Comentario</label>
-            <input type="text" class="form-control" id="comentario" name='comentario'>
+            <input type="text" class="form-control" id="comentario" name='comentario' value="${puntaje.comentario}">
           </div>
         
           <div>
@@ -94,21 +89,25 @@ export class PuntajeComponent implements OnInit {
     form?.addEventListener('submit', (submitEvent) => {
       submitEvent.preventDefault();
 
-      const userSelect = (document.getElementById('userSelect') as HTMLSelectElement).value;
-      const username = (document.getElementById('username') as HTMLInputElement).value;
-      const password = (document.getElementById('password') as HTMLInputElement).value;
-      const role = (document.getElementById('role') as HTMLSelectElement).value;
+      const actitudesGestionComportamiento = (document.getElementById('actitudes') as HTMLSelectElement).value;
+      const ausenciaPuntualidad = (document.getElementById('puntualidad') as HTMLInputElement).value;
+      const calificacionLider = (document.getElementById('calificacionLider') as HTMLInputElement).value;
+      const nps = (document.getElementById('nps') as HTMLInputElement).value;
+      const especifico1 = (document.getElementById('especifico1') as HTMLSelectElement).value;
+      const especifico2 = (document.getElementById('especifico2') as HTMLSelectElement).value;
+      const comentario = (document.getElementById('comentario') as HTMLSelectElement).value;
 
       const url = (this.env.usuarios as any).urlLocal;
 
-      const btn = document.getElementById("btn")! as HTMLButtonElement;
-      if (role !== '' && username !== '' && password !== '') {
-        console.log(role);
-
-        let name: string = userSelect;
-        this.http.post(url, { name, username, password, role }).subscribe({
+      if (actitudesGestionComportamiento !== '' && ausenciaPuntualidad !== '' && calificacionLider !== '' && nps !== '' && especifico1 !== '' && especifico2 !== ''
+        && comentario !== ''
+      ) {
+        
+        let urlEditPuntaje=(this.env.puntaje as any).urlLocal
+        this.http.put(urlEditPuntaje+"/"+puntaje.id, {ausenciaPuntualidad,  especifico1, especifico2, nps, actitudesGestionComportamiento, calificacionLider, comentario
+        }).subscribe({
           next: () => {
-            Swal.fire(`Usuario ${username} agregado`, `El rol es ${role}`, 'success');
+            Swal.fire(`Usuario editado`, 'success');
             setTimeout(() => {
               this.ngOnInit();
             }, 1000);

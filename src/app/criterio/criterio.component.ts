@@ -20,7 +20,7 @@ export class CriterioComponent implements OnInit{
     })
   }
 
-  EditCriterioAlert(e: Event) {
+  EditCriterioAlert(e: Event, criterio:any) {
     const url=(this.env.sucursal as any).urlLocal;
     this.http.get(url).subscribe(response=>{
       this.data=response;
@@ -41,15 +41,15 @@ export class CriterioComponent implements OnInit{
         <form id="editCriterioForm">
           <div class="mb-3">
             <label for="criterio" class="form-label">Criterio</label>
-            <input type="text" class="form-control" id="criterio" name='criterio'>
+            <input type="text" class="form-control" id="criterio" name='criterio' value=${criterio.nombreCriterio}>
           </div
           <div class="mb-3">
             <label for="valor" class="form-label">Valor</label>
-            <input type="number" class="form-control" id="valor" name='valor'>
+            <input type="number" class="form-control" id="valor" name='valor' value=${criterio.valor}>
           </div>
           <div class="mb-3">
             <label for="area" class="form-label">Area</label>
-            <input type="text" class="form-control" id="area" name='area'>
+            <input type="text" class="form-control" id="area" name='area' value=${criterio.area.nombreArea}>
           </div>
         
           <button type="submit" class="btn btn-primary" id='btn'>Enviar</button>
@@ -65,21 +65,18 @@ export class CriterioComponent implements OnInit{
     form?.addEventListener('submit', (submitEvent) => {
       submitEvent.preventDefault();
 
-      const userSelect = (document.getElementById('userSelect') as HTMLSelectElement).value;
-      const username = (document.getElementById('username') as HTMLInputElement).value;
-      const password = (document.getElementById('password') as HTMLInputElement).value;
-      const role = (document.getElementById('role') as HTMLSelectElement).value;
+      const nombreCriterio = (document.getElementById('criterio') as HTMLSelectElement).value;
+      const valor = (document.getElementById('valor') as HTMLInputElement).value;
+      let area = (document.getElementById('area') as HTMLInputElement).value;
+      area=criterio.area.id
 
-      const url = (this.env.usuarios as any).urlLocal;
+      const url = (this.env.criterio as any).urlLocal;
 
-      const btn = document.getElementById("btn")! as HTMLButtonElement;
-      if (role !== '' && username !== '' && password !== '') {
-        console.log(role);
+      if (nombreCriterio !== '' && area !== '') {
 
-        let name: string = userSelect;
-        this.http.post(url, { name, username, password, role }).subscribe({
+        this.http.put(url+"/"+criterio.id, { nombreCriterio, valor, area }).subscribe({
           next: () => {
-            Swal.fire(`Usuario ${username} agregado`, `El rol es ${role}`, 'success');
+            Swal.fire(`Usuario editado`, 'success');
             setTimeout(() => {
               this.ngOnInit();
             }, 1000);
@@ -94,6 +91,15 @@ export class CriterioComponent implements OnInit{
       }
     });
   }
+
+
+
+
+
+
+
+
+
 
   addCriterioAlert(e: Event) {
     const url=(this.env.areas as any).urlLocal;

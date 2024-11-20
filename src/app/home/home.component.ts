@@ -36,4 +36,8 @@ export class HomeComponent {
     this.routes.navigate(["usuario"]);
   }
 
+  redirectLogin(){
+    this.routes.navigate(["login"]);
+  }
+
 }

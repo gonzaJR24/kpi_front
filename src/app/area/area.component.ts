@@ -20,7 +20,7 @@ export class AreaComponent implements OnInit{
     })
   }
 
-   EditAreaAlert(e: Event) {
+   EditAreaAlert(e: Event, area :any) {
     const url=(this.env.sucursal as any).urlLocal;
     this.http.get(url).subscribe(response=>{
       this.data=response;
@@ -42,23 +42,9 @@ export class AreaComponent implements OnInit{
 
           <div class="mb-3">
             <label for="area" class="form-label">Area</label>
-            <input type="text" class="form-control" id="area" name='area'>
+            <input type="text" class="form-control" id="area" name='area' value="${area.nombreArea}">
           </div
 
-          <div class="mb-3">
-            <label for="cantidadEmpleados" class="form-label">Cantidad Empleados</label>
-            <input type="number" class="form-control" id="cantidadEmpleados" name='cantidadEmpleados'>
-          </div>
-
-          <div class="mb-3">
-            <label for="puntajeTotal" class="form-label">Puntaje Total</label>
-            <input type="number" class="form-control" id="puntajeTotal" name='puntajeTotal'>
-          </div>
-
-           <div class="mb-3">
-            <label for="rendimientoArea" class="form-label">Rendimiento Area</label>
-            <input type="number" class="form-control" id="rendimientoArea" name='rendimientoArea'>
-          </div>
 
           <div class="mb-3">
             <label for="sucursal" class="form-label">sucursal</label>

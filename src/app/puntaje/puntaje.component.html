@@ -35,8 +35,8 @@
             <td>{{item.puntajeTotal}}</td>
             <td>{{item.comentario}}</td>
             <td class="d-flex">
-                <button class="btn btn-warning mx-3" (click)="EditPuntajeAlert($event)">Editar</button>
-                <button class="btn btn-danger mx-3" (click)="showDeleteAlert($event, item.id)">Eliminar</button>
+                <button class="btn mx-3" (click)="EditPuntajeAlert($event, item)"><i class="fa-solid fa-pen-to-square"></i></button>
+                <button class="btn mx-3" (click)="showDeleteAlert($event, item.id)"><i class="fa-solid fa-trash"></i></button>
             </td>
           </tr>
         </tbody>
