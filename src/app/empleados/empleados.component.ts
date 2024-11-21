@@ -11,6 +11,8 @@ import Swal from 'sweetalert2';
 export class EmpleadosComponent implements OnInit{
   empleados:any;
   data:any;
+  cargos:any
+  area:any
   constructor(private http:HttpClient, private env:EnvironmentService){}
 
   ngOnInit(): void {
@@ -24,19 +26,43 @@ export class EmpleadosComponent implements OnInit{
   EditEmpleadoAlert(e: Event, id: number) {
     e.preventDefault();
   
-    let objEmpleado: any;
+    let objEmpleado: any;1
     const urlEmpleado = (this.env.empleados as any).urlLocal;
     const urlSucursal = (this.env.sucursal as any).urlLocal;
+    const urlCargo = (this.env.cargo as any).urlLocal;
+    const urlArea = (this.env.area as any).urlLocal;
   
-    // First, get the empleado data
     this.http.get(urlEmpleado + "/" + id).subscribe((empleadoResponse: any) => {
-      objEmpleado = empleadoResponse;  // Assign employee data
+      objEmpleado = empleadoResponse; 
+      })
+
+      this.http.get(urlArea).subscribe(response=>{
+        this.area=response
+      })
+
+      let areasHtml: string = '';
+        this.area.forEach((item: any) => {
+          if (item != null) {
+            areasHtml += `<option value="${item.id}">${item.nombreArea}</option>`;
+          }
+        });
+
+      this.http.get(urlCargo).subscribe(response=>{
+        this.cargos=response;
+
+        let cargosHTML: string = '';
+        this.cargos.forEach((item: any) => {
+          if (item != null) {
+            cargosHTML += `<option value="${item.id}">${item.nombreCargo}</option>`;
+          }
+        });
+
+        
+
   
-      // Now, get the sucursal data
       this.http.get(urlSucursal).subscribe((sucursalResponse: any) => {
-        this.data = sucursalResponse; // Assign sucursal data
+        this.data = sucursalResponse; 
   
-        // Now build the optionsHtml for the sucursal selection
         let optionsHtml: string = '';
         this.data.forEach((item: any) => {
           if (item != null) {
@@ -44,7 +70,6 @@ export class EmpleadosComponent implements OnInit{
           }
         });
   
-        // Create the SweetAlert with pre-filled form data
         Swal.fire({
           title: 'Editar Empleado',
           showConfirmButton: false,
@@ -68,13 +93,12 @@ export class EmpleadosComponent implements OnInit{
   
               <label for="area" class="form-label">Area</label>
               <select class="form-select form-select-sm mb-3" id="area" name="area">
-                  <option value="1" ${objEmpleado.area === 1 ? 'selected' : ''}>Contabilidad</option>
+                  ${areasHtml}
               </select>
   
               <label for="cargo" class="form-label">Cargo</label>
               <select class="form-select form-select-sm mb-3" id="cargo" name="cargo">
-                  <option value="1" ${objEmpleado.cargo === 1 ? 'selected' : ''}>Operativo A</option>
-                  <option value="2" ${objEmpleado.cargo === 2 ? 'selected' : ''}>Operativo B</option>
+                  ${cargosHTML}
               </select>
   
               <button type="submit" class="btn btn-primary" id="btn">Enviar</button>
@@ -120,19 +144,49 @@ export class EmpleadosComponent implements OnInit{
   
 
   AddEmpleadoAlert(e: Event) {
-    const url=(this.env.sucursal as any).urlLocal;
+    e.preventDefault();
+    const url=(this.env.sexo as any).urlLocal;
+    const urlArea=(this.env.area as any).urlLocal;
+    const urlCargo=(this.env.cargo as any).urlLocal;
+
+
     this.http.get(url).subscribe(response=>{
       this.data=response;
     });
-    
+
+    this.http.get(urlArea).subscribe(response=>{
+      this.area=response;
+    });
+
+    this.http.get(urlCargo).subscribe(response=>{
+      this.cargos=response;
+    });
+
     let optionsHtml!:string;
-    this.data.forEach((item: any) => {
+    let areaHtml!:string;
+    let cargoHtml!:string;
+
+    this.area.forEach((item: any) => {
       if(item!=null){
-        optionsHtml += `<option value="${item.id}">${item.nombreSucursal}</option>`;
+        areaHtml += `<option value="${item.id}">${item.nombreArea}</option>`;
       }
     });
 
-    e.preventDefault();
+
+    this.cargos.forEach((item: any) => {
+      if(item!=null){
+        cargoHtml += `<option value="${item.id}">${item.nombreCargo}</option>`;
+      }
+    });
+
+
+    this.data.forEach((item: any) => {
+      if(item!=null){
+        optionsHtml += `<option value="${item.id}">${item.sexo}</option>`;
+      }
+    });
+
+    
     Swal.fire({
       title: 'Agregar Empleado',
       showConfirmButton: false,
@@ -151,21 +205,19 @@ export class EmpleadosComponent implements OnInit{
           <label for="sexo" class="form-label">Sexo</label>
             <select class="form-select form-select-sm mb-3" id="sexo" name="sexo">
                 <option selected>--seleccione--</option>
-                <option value="1">masculino</option>
-                <option value="2">femenino</option>
+                ${optionsHtml}
             </select>
 
           <label for="area" class="form-label">Area</label>
             <select class="form-select form-select-sm mb-3" id="area" name="area">
                 <option selected>--seleccione--</option>
-                <option value="1">Contabilidad</option>
+                ${areaHtml}
             </select>
 
             <label for="cargo" class="form-label">Cargo</label>
             <select class="form-select form-select-sm mb-3" id="cargo" name="cargo">
                 <option selected>--seleccione--</option>
-                <option value="1">Operativo A</option>
-                <option value="1">Operativo B</option>
+                ${cargoHtml}
             </select>
         
           <button type="submit" class="btn btn-primary" id='btn'>Enviar</button>
@@ -181,21 +233,19 @@ export class EmpleadosComponent implements OnInit{
     form?.addEventListener('submit', (submitEvent) => {
       submitEvent.preventDefault();
 
-      const userSelect = (document.getElementById('userSelect') as HTMLSelectElement).value;
-      const username = (document.getElementById('username') as HTMLInputElement).value;
-      const password = (document.getElementById('password') as HTMLInputElement).value;
-      const role = (document.getElementById('role') as HTMLSelectElement).value;
+      const nombre = (document.getElementById('nombre') as HTMLSelectElement).value;
+      const apellido = (document.getElementById('apellido') as HTMLInputElement).value;
+      const sexo = (document.getElementById('sexo') as HTMLInputElement).value;
+      const area = (document.getElementById('area') as HTMLSelectElement).value;
+      const cargo= (document.getElementById('cargo') as HTMLSelectElement).value;
 
-      const url = (this.env.usuarios as any).urlLocal;
+      const url = (this.env.empleados as any).urlLocal;
 
-      const btn = document.getElementById("btn")! as HTMLButtonElement;
-      if (role !== '' && username !== '' && password !== '') {
-        console.log(role);
+      if (nombre !== '' && apellido !== '' && sexo !== '' && area !== '' && cargo !== '') {
 
-        let name: string = userSelect;
-        this.http.post(url, { name, username, password, role }).subscribe({
+        this.http.post(url, { nombre, apellido, sexo, cargo, area }).subscribe({
           next: () => {
-            Swal.fire(`Usuario ${username} agregado`, `El rol es ${role}`, 'success');
+            Swal.fire(`Empleado agregado`, `El cargo es ${cargo}`, 'success');
             setTimeout(() => {
               this.ngOnInit();
             }, 1000);
@@ -223,7 +273,6 @@ export class EmpleadosComponent implements OnInit{
       cancelButtonText: "Cancelar",
       confirmButtonText: "Si,eliminar"
     }).then((result) => {
-      // This block will run after SweetAlert is closed, so no further code will execute until modal is closed
       if (result.isConfirmed) {
         this.http.delete(url).subscribe({
           error: () => {

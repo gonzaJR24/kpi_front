@@ -34,4 +34,17 @@ export class EnvironmentService {
   tipoUsuario:object={
     urlLocal:"http://localhost:8080/api/tipo_usuario"
   }
+
+  cargo:object={
+    urlLocal:"http://localhost:8080/api/cargo"
+  }
+
+  sexo:object={
+    urlLocal:"http://localhost:8080/api/sexo"
+  }
+
+  area:object={
+    urlLocal:"http://localhost:8080/api/area"
+  }
+
 }

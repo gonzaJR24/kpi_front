@@ -133,51 +133,83 @@ export class UsuarioComponent implements OnInit{
     });
   }
 
-  EditUserlert(e: Event) {
+
+
+
+
+
+  EditUserlert(e: Event, usuario:any) {
+    e.preventDefault();
+
     const url=(this.env.sucursal as any).urlLocal;
+
     this.http.get(url).subscribe(response=>{
       this.data=response;
     });
     
     let optionsHtml!:string;
+    let usuariosHtml!:string;
+
     this.data.forEach((item: any) => {
       if(item!=null){
-        optionsHtml += `<option value="${item.id}">${item.nombreSucursal}</option>`;
+        optionsHtml += `<option value="${item.id}" ${item.nombreSucursal === usuario.sucursal.nombreSucursal ? 'selected' : ''}>${item.nombreSucursal}</option>`;
       }
     });
+    
+    const urlTipoUsuario=(this.env.tipoUsuario as any).urlLocal;
+    this.http.get(urlTipoUsuario).subscribe(response=>{
+      this.tipoUsuario=response;
+    })
 
-    e.preventDefault();
+    this.tipoUsuario.forEach((item: any) => {
+      if(item!=null){
+        usuariosHtml += `<option value="${item.idTipoUsuario}" ${item.tipoUsuario === usuario.tipoUsuario.tipoUsuario ? 'selected' : ''}>${item.tipoUsuario}</option>`;
+      }
+    });
+    
+  
+
     Swal.fire({
       title: 'Editar Usuario',
       showConfirmButton: false,
       html: `
-        <form id="addUserForm">
+        <form id="editUserForm">
+
+           <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name='nombre' value='${usuario.nombres}'>
+          </div>
+
+           <div class="mb-3">
+            <label for="apellido" class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="apellido" name='apellido' value='${usuario.apellidos}'>
+          </div>
+
           <div class="mb-3">
             <label for="sucursal" class="form-label">Sucursal</label>
             <select class="form-select" id="sucursal" name='sucursal'>
-              <option selected>--seleccione--</option>
+              <option>--seleccione--</option>
               ${optionsHtml}
             </select>
           </div>
           <div class="mb-3">
             <label for="username" class="form-label">Usuario</label>
-            <input type="text" class="form-control" id="username" name='username'>
+            <input type="text" class="form-control" id="username" name='username' value='${usuario.nombre_usuario}'>
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">Contrasena</label>
-            <input type="text" class="form-control" id="password" name='password'>
+            <input type="text" class="form-control" id="password" name='password' value='${usuario.contrasena}'>
           </div>
           <div class="mb-3">
             <label for="tipoUsuario" class="form-label">Tipo Usuario</label>
             <select class="form-select" id="tipoUsuario" name='tipoUsuario'>
               <option selected>--seleccione--</option>
-              <option value="STANDARD">STANDARD</option>
-              <option value="ADMIN">ADMIN</option>
+              ${usuariosHtml}
             </select>
           </div>
           <div class="mb-3">
             <label for="correo" class="form-label">Correo</label>
-            <input type="email" class="form-control" id="correo" name='correo'>
+            <input type="email" class="form-control" id="correo" name='correo' value="${usuario.correo}">
           </div>
           <button type="submit" class="btn btn-primary" id='btn'>Submit</button>
         </form>
@@ -187,33 +219,33 @@ export class UsuarioComponent implements OnInit{
 
     });
 
-    const form = document.getElementById('addUserForm') as HTMLFormElement;
+    const form = document.getElementById('editUserForm') as HTMLFormElement;
 
     form?.addEventListener('submit', (submitEvent) => {
       submitEvent.preventDefault();
-
-      const userSelect = (document.getElementById('userSelect') as HTMLSelectElement).value;
-      const username = (document.getElementById('username') as HTMLInputElement).value;
-      const password = (document.getElementById('password') as HTMLInputElement).value;
-      const role = (document.getElementById('role') as HTMLSelectElement).value;
+  
+      let nombres = (document.getElementById('nombre') as HTMLSelectElement).value;
+      let apellidos = (document.getElementById('apellido') as HTMLSelectElement).value;
+      let sucursal = (document.getElementById('sucursal') as HTMLSelectElement).value;
+      let nombreUsuario = (document.getElementById('username') as HTMLInputElement).value;
+      let contrasena = (document.getElementById('password') as HTMLSelectElement).value;
+      let tipoUsuario = (document.getElementById('tipoUsuario') as HTMLSelectElement).value;
+      let correo = (document.getElementById('correo') as HTMLSelectElement).value;
 
       const url = (this.env.usuarios as any).urlLocal;
 
-      const btn = document.getElementById("btn")! as HTMLButtonElement;
-      if (role !== '' && username !== '' && password !== '') {
-        console.log(role);
+      if (usuario !== '' && contrasena !== '' && nombres !== '' && apellidos!="") {
 
-        let name: string = userSelect;
-        this.http.post(url, { name, username, password, role }).subscribe({
+        this.http.put(url+"/"+usuario.id, { nombres, apellidos, nombreUsuario, contrasena, correo, tipoUsuario, sucursal}).subscribe({
           next: () => {
-            Swal.fire(`Usuario ${username} agregado`, `El rol es ${role}`, 'success');
+            Swal.fire(`Usuario editado`, 'success');
             setTimeout(() => {
               this.ngOnInit();
             }, 1000);
           },
           error: (err) => {
             console.error('Error adding user:', err);
-            Swal.fire('Error', 'No se pudo agregar el usuario', 'error');
+            Swal.fire('Error', 'No se pudo editar el usuario', 'error');
           }
         });
       } else {
@@ -221,6 +253,15 @@ export class UsuarioComponent implements OnInit{
       }
     });
   }
+
+
+
+
+
+
+
+
+
 
   showDeleteAlert(e: Event, id: number) {
     e.preventDefault()

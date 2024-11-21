@@ -99,6 +99,12 @@ export class AreaComponent implements OnInit{
     });
   }
 
+
+
+
+
+
+
    addAreaAlert(e: Event) {
 
     const url=(this.env.sucursal as any).urlLocal;
@@ -121,23 +127,8 @@ export class AreaComponent implements OnInit{
         <form id="editAreaForm">
 
           <div class="mb-3">
-            <label for="area" class="form-label">Area</label>
+            <label for="area" class="form-label">Nombre</label>
             <input type="text" class="form-control" id="area" name='area'>
-          </div
-
-          <div class="mb-3">
-            <label for="cantidadEmpleados" class="form-label">Cantidad Empleados</label>
-            <input type="number" class="form-control" id="cantidadEmpleados" name='cantidadEmpleados'>
-          </div>
-
-          <div class="mb-3">
-            <label for="puntajeTotal" class="form-label">Puntaje Total</label>
-            <input type="number" class="form-control" id="puntajeTotal" name='puntajeTotal'>
-          </div>
-
-           <div class="mb-3">
-            <label for="rendimientoArea" class="form-label">Rendimiento Area</label>
-            <input type="number" class="form-control" id="rendimientoArea" name='rendimientoArea'>
           </div>
 
           <div class="mb-3">
@@ -163,21 +154,17 @@ export class AreaComponent implements OnInit{
     form?.addEventListener('submit', (submitEvent) => {
       submitEvent.preventDefault();
 
-      const userSelect = (document.getElementById('userSelect') as HTMLSelectElement).value;
-      const username = (document.getElementById('username') as HTMLInputElement).value;
-      const password = (document.getElementById('password') as HTMLInputElement).value;
-      const role = (document.getElementById('role') as HTMLSelectElement).value;
+      const nombre = (document.getElementById('nombre') as HTMLSelectElement).value;
+      const sucursal = (document.getElementById('sucursal') as HTMLSelectElement).value;
 
       const url = (this.env.usuarios as any).urlLocal;
 
       const btn = document.getElementById("btn")! as HTMLButtonElement;
-      if (role !== '' && username !== '' && password !== '') {
-        console.log(role);
+      if (sucursal !== '' && nombre !== '' ) {
 
-        let name: string = userSelect;
-        this.http.post(url, { name, username, password, role }).subscribe({
+        this.http.post(url, { nombre, sucursal }).subscribe({
           next: () => {
-            Swal.fire(`Usuario ${username} agregado`, `El rol es ${role}`, 'success');
+            Swal.fire(`Area ${nombre} agregado`, 'success');
             setTimeout(() => {
               this.ngOnInit();
             }, 1000);
@@ -219,6 +206,4 @@ export class AreaComponent implements OnInit{
       }
     });
   }
-  
-
 }
