@@ -20,7 +20,8 @@ export class EnvironmentService {
   }
 
   criterio:object={
-    urlLocal:"http://localhost:8080/api/criterio"
+    urlLocal:"http://localhost:8080/api/criterio",
+    save:"http://localhost:8080/api/criterio/save"
   }
 
   usuarios:object={

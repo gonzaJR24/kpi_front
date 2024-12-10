@@ -2,36 +2,50 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { EnvironmentService } from '../environment.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-area',
   templateUrl: './area.component.html',
   styleUrl: './area.component.css'
 })
-export class AreaComponent implements OnInit{
-  areaResponse:any;
-  data:any;
-  constructor(private http:HttpClient, private env:EnvironmentService){}
+export class AreaComponent implements OnInit {
+  areaResponse: any;
+  usuariosResponse: any;
+  data: any;
+  constructor(private http: HttpClient, private env: EnvironmentService, private router: Router) { }
 
   ngOnInit(): void {
-    const url=(this.env.areas as any).urlLocal;
-    this.http.get(url).subscribe(response=>{
-      this.areaResponse=response;
+    const url = (this.env.areas as any).urlLocal;
+    this.http.get(url).subscribe(response => {
+      this.areaResponse = response;
+    })
+
+    const urlUsuarios = (this.env.usuarios as any).urlLocal;
+    this.http.get(urlUsuarios).subscribe(response => {
+      this.usuariosResponse = response;
     })
   }
 
-   EditAreaAlert(e: Event, area :any) {
-    const url=(this.env.sucursal as any).urlLocal;
-    this.http.get(url).subscribe(response=>{
-      this.data=response;
+  EditAreaAlert(e: Event, area: any) {
+    const url = (this.env.sucursal as any).urlLocal;
+    this.http.get(url).subscribe(response => {
+      this.data = response;
     });
-    
-    let optionsHtml!:string;
+
+    let optionsHtml!: string;
+    let gerentes!:string;
     this.data.forEach((item: any) => {
-      if(item!=null){
+      if (item != null) {
         optionsHtml += `<option value="${item.id}">${item.nombreSucursal}</option>`;
       }
     });
+
+    this.usuariosResponse.forEach((gerente:any)=>{
+      if(gerente.tipoUsuario.tipoUsuario=="admin"){
+        gerentes+=`<option>${gerente.nombres+" "+gerente.apellidos}</option>`;
+      }
+    })
 
     e.preventDefault();
     Swal.fire({
@@ -41,8 +55,8 @@ export class AreaComponent implements OnInit{
         <form id="editAreaForm">
 
           <div class="mb-3">
-            <label for="area" class="form-label">Area</label>
-            <input type="text" class="form-control" id="area" name='area' value="${area.nombreArea}">
+            <label for="nombreArea" class="form-label">Area</label>
+            <input type="text" class="form-control" id="nombreArea" name='nombreArea' value="${area.nombreArea}">
           </div
 
 
@@ -53,9 +67,18 @@ export class AreaComponent implements OnInit{
               ${optionsHtml}
             </select>
           </div>
-        
+
+          
+          <div class="mt-3 mb-3">
+            <label for="gerente" class="form-label">Gerente</label>
+            <select class="form-select" id="gerente" name='gerente'>
+              <option selected>--seleccione--</option>
+              ${gerentes}
+            </select>
+          </div>
+
           <div>
-          <button type="submit" class="btn btn-primary" id='btn'>Enviar</button>
+          <button type="submit" class="mt-1 btn btn-primary" id='btn'>Enviar</button>
           </div>
         </form>
       `,
@@ -69,28 +92,24 @@ export class AreaComponent implements OnInit{
     form?.addEventListener('submit', (submitEvent) => {
       submitEvent.preventDefault();
 
-      const userSelect = (document.getElementById('userSelect') as HTMLSelectElement).value;
-      const username = (document.getElementById('username') as HTMLInputElement).value;
-      const password = (document.getElementById('password') as HTMLInputElement).value;
-      const role = (document.getElementById('role') as HTMLSelectElement).value;
+      const nombreArea = (document.getElementById('nombreArea') as HTMLSelectElement).value;
+      const sucursal = (document.getElementById('sucursal') as HTMLInputElement).value;
+      const gerente=(document.getElementById('gerente') as HTMLSelectElement).value;
 
-      const url = (this.env.usuarios as any).urlLocal;
+      const url = (this.env.area as any).urlLocal;
 
-      const btn = document.getElementById("btn")! as HTMLButtonElement;
-      if (role !== '' && username !== '' && password !== '') {
-        console.log(role);
+      if (nombreArea !== '' && sucursal !== '' && gerente !== '') {
 
-        let name: string = userSelect;
-        this.http.post(url, { name, username, password, role }).subscribe({
+        this.http.put(url+"/"+area.id, { nombreArea, sucursal, gerente }).subscribe({
           next: () => {
-            Swal.fire(`Usuario ${username} agregado`, `El rol es ${role}`, 'success');
+            Swal.fire(`Area editada`, 'success');
             setTimeout(() => {
               this.ngOnInit();
             }, 1000);
           },
           error: (err) => {
-            console.error('Error adding user:', err);
-            Swal.fire('Error', 'No se pudo agregar el usuario', 'error');
+            console.error('Error editando area:', err);
+            Swal.fire('Error', 'No se pudo editar el area', 'error');
           }
         });
       } else {
@@ -105,31 +124,39 @@ export class AreaComponent implements OnInit{
 
 
 
-   addAreaAlert(e: Event) {
-
-    const url=(this.env.sucursal as any).urlLocal;
-    this.http.get(url).subscribe(response=>{
-      this.data=response;
+  addAreaAlert(e: Event) {
+    const url = (this.env.sucursal as any).urlLocal;
+    this.http.get(url).subscribe(response => {
+      this.data = response;
     });
-    
-    let optionsHtml!:string;
+
+    let optionsHtml!: string;
+    let gerentes!:string;
     this.data.forEach((item: any) => {
-      if(item!=null){
+      if (item != null) {
         optionsHtml += `<option value="${item.id}">${item.nombreSucursal}</option>`;
       }
     });
 
+    this.usuariosResponse.forEach((gerente:any)=>{
+      if(gerente.tipoUsuario.tipoUsuario=="admin"){
+        gerentes+=`<option>${gerente.nombres+" "+gerente.apellidos}</option>`;
+        // gerentes+=(gerente.nombres+" "+gerente.apellidos)
+      }
+    })
+
     e.preventDefault();
     Swal.fire({
-      title: 'Agregar Area',
+      title: 'Editar Area',
       showConfirmButton: false,
       html: `
-        <form id="editAreaForm">
+        <form id="addAreaForm">
 
           <div class="mb-3">
-            <label for="area" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="area" name='area'>
-          </div>
+            <label for="nombreArea" class="form-label">Area</label>
+            <input type="text" class="form-control" id="nombreArea" name='nombreArea'>
+          </div
+
 
           <div class="mb-3">
             <label for="sucursal" class="form-label">sucursal</label>
@@ -138,9 +165,18 @@ export class AreaComponent implements OnInit{
               ${optionsHtml}
             </select>
           </div>
-        
+
+          
+          <div class="mt-3 mb-3">
+            <label for="gerente" class="form-label">Gerente</label>
+            <select class="form-select" id="gerente" name='gerente'>
+              <option selected>--seleccione--</option>
+              ${gerentes}
+            </select>
+          </div>
+
           <div>
-          <button type="submit" class="btn btn-primary" id='btn'>Enviar</button>
+          <button type="submit" class="mt-1 btn btn-primary" id='btn'>Enviar</button>
           </div>
         </form>
       `,
@@ -149,28 +185,28 @@ export class AreaComponent implements OnInit{
 
     });
 
-    const form = document.getElementById('editAreaForm') as HTMLFormElement;
+    const form = document.getElementById('addAreaForm') as HTMLFormElement;
 
     form?.addEventListener('submit', (submitEvent) => {
       submitEvent.preventDefault();
 
-      const nombre = (document.getElementById('nombre') as HTMLSelectElement).value;
-      const sucursal = (document.getElementById('sucursal') as HTMLSelectElement).value;
+      const nombreArea = (document.getElementById('nombreArea') as HTMLSelectElement).value;
+      const sucursal = (document.getElementById('sucursal') as HTMLInputElement).value;
+      const gerente=(document.getElementById('gerente') as HTMLSelectElement).value;
 
-      const url = (this.env.usuarios as any).urlLocal;
+      const url = (this.env.area as any).urlLocal;
 
-      const btn = document.getElementById("btn")! as HTMLButtonElement;
-      if (sucursal !== '' && nombre !== '' ) {
+      if (nombreArea !== '' && sucursal !== '' && gerente !== '') {
 
-        this.http.post(url, { nombre, sucursal }).subscribe({
+        this.http.post(url, { nombreArea, sucursal, gerente }).subscribe({
           next: () => {
-            Swal.fire(`Area ${nombre} agregado`, 'success');
+            Swal.fire(`Area Agregada`, 'success');
             setTimeout(() => {
               this.ngOnInit();
             }, 1000);
           },
           error: (err) => {
-            console.error('Error adding user:', err);
+            console.error('Error agregando area:', err);
             Swal.fire('Error', 'No se pudo agregar el usuario', 'error');
           }
         });
@@ -180,9 +216,15 @@ export class AreaComponent implements OnInit{
     });
   }
 
+
+
+
+
+
   showDeleteAlert(e: Event, id: number) {
     e.preventDefault()
-    const url = (this.env.criterio as any).deleteUserServer + id
+    const url = (this.env.area as any).urlLocal + "/" + id
+    console.log(url)
     Swal.fire({
       title: "Esta seguro?",
       icon: "warning",
@@ -190,12 +232,12 @@ export class AreaComponent implements OnInit{
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "red",
       cancelButtonText: "Cancelar",
-      confirmButtonText: "Si,eliminar"
+      confirmButtonText: "Si, eliminar"
     }).then((result) => {
-      // This block will run after SweetAlert is closed, so no further code will execute until modal is closed
+
       if (result.isConfirmed) {
         this.http.delete(url).subscribe({
-          error: () => {
+          next: () => {
             Swal.fire(`Usuario eliminado`, 'success');
             setTimeout(() => {
               this.ngOnInit();

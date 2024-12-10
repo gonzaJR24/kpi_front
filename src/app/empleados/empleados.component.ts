@@ -263,7 +263,7 @@ export class EmpleadosComponent implements OnInit{
 
   showDeleteAlert(e: Event, id: number) {
     e.preventDefault()
-    const url = (this.env.criterio as any).deleteUserServer + id
+    const url = (this.env.empleados as any).urlLocal + "/" + id
     Swal.fire({
       title: "Esta seguro?",
       icon: "warning",

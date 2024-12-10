@@ -44,7 +44,7 @@ export class UsuarioComponent implements OnInit{
 
     this.tipoUsuario.forEach((item: any) => {
       if(item!=null){
-        tipoUsuarioHtml += `<option value="${item.id}">${item.tipoUsuario}</option>`;
+        tipoUsuarioHtml += `<option value="${item.idTipoUsuario}">${item.tipoUsuario}</option>`;
       }
     });
 
@@ -55,12 +55,12 @@ export class UsuarioComponent implements OnInit{
       html: `
         <form id="addUserForm">
           <div class="mb-3">
-            <label for="name" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="name" name='nombres'>
+            <label for="nombres" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombres" name='nombres'>
           </div>
           <div class="mb-3">
-            <label for="name" class="form-label">Apellido</label>
-            <input type="text" class="form-control" id="name" name='apellidos'>
+            <label for="apellidos" class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="apellidos" name='apellidos'>
           </div>
           <div class="mb-3">
             <label for="sucursal" class="form-label">sucursal</label>
@@ -70,12 +70,12 @@ export class UsuarioComponent implements OnInit{
             </select>
           </div>
           <div class="mb-3">
-            <label for="username" class="form-label">Usuario</label>
-            <input type="text" class="form-control" id="username" name='username'>
+            <label for="nombreUsuario" class="form-label">Usuario</label>
+            <input type="text" class="form-control" id="nombreUsuario" name='nombreUsuario'>
           </div>
           <div class="mb-3">
-            <label for="password" class="form-label">Contrasena</label>
-            <input type="text" class="form-control" id="password" name='password'>
+            <label for="contrasena" class="form-label">Contrasena</label>
+            <input type="text" class="form-control" id="contrasena" name='contrasena'>
           </div>
 
           <div class="mb-3">
@@ -86,10 +86,6 @@ export class UsuarioComponent implements OnInit{
             </select>
           </div>
 
-          <div class="mb-3">
-            <label for="correo" class="form-label">Correo</label>
-            <input type="email" class="form-control" id="correo" name='correo'>
-          </div>
           <button type="submit" class="btn btn-primary" id='btn'>Submit</button>
         </form>
       `,
@@ -103,28 +99,23 @@ export class UsuarioComponent implements OnInit{
     form?.addEventListener('submit', (submitEvent) => {
       submitEvent.preventDefault();
 
-      const userSelect = (document.getElementById('userSelect') as HTMLSelectElement).value;
-      const username = (document.getElementById('username') as HTMLInputElement).value;
-      const password = (document.getElementById('password') as HTMLInputElement).value;
-      const role = (document.getElementById('role') as HTMLSelectElement).value;
+      const nombres = (document.getElementById('nombres') as HTMLSelectElement).value;
+      const apellidos = (document.getElementById('apellidos') as HTMLInputElement).value;
+      const sucursal = Number((document.getElementById('sucursal') as HTMLInputElement).value);
+      const nombreUsuario = (document.getElementById('nombreUsuario') as HTMLSelectElement).value;
+      const contrasena = (document.getElementById('contrasena') as HTMLSelectElement).value;
+      const tipoUsuario = Number((document.getElementById('tipoUsuario') as HTMLSelectElement).value);
 
       const url = (this.env.usuarios as any).urlLocal;
 
-      const btn = document.getElementById("btn")! as HTMLButtonElement;
-      if (role !== '' && username !== '' && password !== '') {
-        console.log(role);
-
-        let name: string = userSelect;
-        this.http.post(url, { name, username, password, role }).subscribe({
-          next: () => {
-            Swal.fire(`Usuario ${username} agregado`, `El rol es ${role}`, 'success');
+      if (nombres !== '' && apellidos !== '' && sucursal !== 0 && nombreUsuario!=='' && contrasena!=='' &&  tipoUsuario!==0) {
+        console.log(nombres, apellidos, nombreUsuario, contrasena, tipoUsuario, sucursal);
+        this.http.post(url, { nombres, apellidos, nombreUsuario, contrasena, tipoUsuario, sucursal }).subscribe({
+          error: () => {
+            Swal.fire(`Usuario ${nombres + " " + apellidos} agregado`, 'success');
             setTimeout(() => {
               this.ngOnInit();
             }, 1000);
-          },
-          error: (err) => {
-            console.error('Error adding user:', err);
-            Swal.fire('Error', 'No se pudo agregar el usuario', 'error');
           }
         });
       } else {
@@ -133,8 +124,7 @@ export class UsuarioComponent implements OnInit{
     });
   }
 
-
-
+  
 
 
 
@@ -207,10 +197,6 @@ export class UsuarioComponent implements OnInit{
               ${usuariosHtml}
             </select>
           </div>
-          <div class="mb-3">
-            <label for="correo" class="form-label">Correo</label>
-            <input type="email" class="form-control" id="correo" name='correo' value="${usuario.correo}">
-          </div>
           <button type="submit" class="btn btn-primary" id='btn'>Submit</button>
         </form>
       `,
@@ -230,13 +216,12 @@ export class UsuarioComponent implements OnInit{
       let nombreUsuario = (document.getElementById('username') as HTMLInputElement).value;
       let contrasena = (document.getElementById('password') as HTMLSelectElement).value;
       let tipoUsuario = (document.getElementById('tipoUsuario') as HTMLSelectElement).value;
-      let correo = (document.getElementById('correo') as HTMLSelectElement).value;
 
       const url = (this.env.usuarios as any).urlLocal;
 
       if (usuario !== '' && contrasena !== '' && nombres !== '' && apellidos!="") {
 
-        this.http.put(url+"/"+usuario.id, { nombres, apellidos, nombreUsuario, contrasena, correo, tipoUsuario, sucursal}).subscribe({
+        this.http.put(url+"/"+usuario.id, { nombres, apellidos, nombreUsuario, contrasena, tipoUsuario, sucursal}).subscribe({
           next: () => {
             Swal.fire(`Usuario editado`, 'success');
             setTimeout(() => {
@@ -265,7 +250,8 @@ export class UsuarioComponent implements OnInit{
 
   showDeleteAlert(e: Event, id: number) {
     e.preventDefault()
-    const url = (this.env.criterio as any).deleteUserServer + id
+    const url = (this.env.usuarios as any).urlLocal + "/" + id
+    console.log(url);
     Swal.fire({
       title: "Esta seguro?",
       icon: "warning",
@@ -275,7 +261,6 @@ export class UsuarioComponent implements OnInit{
       cancelButtonText: "Cancelar",
       confirmButtonText: "Si,eliminar"
     }).then((result) => {
-      // This block will run after SweetAlert is closed, so no further code will execute until modal is closed
       if (result.isConfirmed) {
         this.http.delete(url).subscribe({
           error: () => {

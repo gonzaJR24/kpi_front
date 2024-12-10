@@ -5,3 +5,15 @@
 .fa-trash:hover{
     color: red;
 }
+
+.fa-print:hover{
+    color: blue;
+}
+
+.fa-pen:hover{
+    color: rgb(76, 168, 0);
+}
+
+thead tr th{
+    color: rgb(88, 72, 235);
+}

@@ -40,4 +40,8 @@ export class HomeComponent {
     this.routes.navigate(["login"]);
   }
 
+  redirectEvaluar(){
+    this.routes.navigate(["evaluar"]);
+  }
+
 }
