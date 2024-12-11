@@ -216,10 +216,7 @@ export class AreaComponent implements OnInit {
     });
   }
 
-
-
-
-
+  
 
   showDeleteAlert(e: Event, id: number) {
     e.preventDefault()

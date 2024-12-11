@@ -1,3 +1,8 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+}
+
 .input_wrapper{
     display: flex;
     flex-direction: column;
@@ -16,4 +21,62 @@
     width: 300px;
     border: 1px solid purple;
     border-radius: 20px;
+}
+
+.container1{
+    display: flex;
+}
+
+.col-3{
+    width: 240px;
+    background: rgb(50, 83, 145);
+    color:white;
+    height: 700px;
+}
+
+ul li{
+    margin-top: 30px;
+    list-style: none;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 20px;
+    margin-right: 30px;
+}
+
+ul li:hover{
+    list-style: none;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 20px;
+    margin-right: 30px;
+    color: purple;
+    cursor: pointer;
+}
+
+.col-13{
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+}
+
+.dashboard_header{
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.indicador{
+    width: 230px;
+    height: 230px;
+    padding: 40px;
+    border: 20px solid rgb(121, 147, 230);
+    border-radius: 100%;
+    text-align: center;
+}
+
+.monto{
+    font-size: 20px;
+}
+
+.label{
+    font-weight: 600;
 }

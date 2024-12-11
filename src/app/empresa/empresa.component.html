@@ -1,30 +1,38 @@
 <app-home></app-home>
-<div class="container">
-    <div class="d-flex justify-content-center mt-3">
-        <img [src]="imgUrl" placeholder="img" alt="" class="" width="200" height="80">
+
+<div class="container1">
+    <div class="col-3">
+        <ul class="mt-2">
+            <li class=""><i class="fa-regular fa-building"></i><p>Empresa</p></li>
+            <li class=""><i class="fa-solid fa-building-user"></i><p>Area</p></li>
+            <li><i class="fa-solid fa-user"></i><p>Empleado</p></li>
+        </ul>
     </div>
-    
-    <form>
-        <div class="input_wrapper mt-4">
-            <div class="mb-3">
-                <label for="nombreEmpresa" class="form-label">Nombre Empresa:</label>
-                <input type="text" class="form-control" id="nombreEmpresa" value="Medilink">
+
+    <div class="col-13">
+        <div class="dashboard_header">
+            <div class="indicador">
+                <p class="label">Meta</p>
+                <p class="monto">9300000</p>
             </div>
-            <div class="mb-3">
-                <label for="progresoEsperado" class="form-label">Progreso Esperado:</label>
-                <input type="number" class="form-control" id="progresoEsperado">
+        
+            <div class="indicador">
+                <p class="label">Real</p>
+                <p class="monto">9300000</p>
             </div>
-            <div class="mb-3">
-                <label for="progresoObtenido" class="form-label">Progreso Obtenido:</label>
-                <input type="number" class="form-control" id="progresoObtenido">
+        
+            <div class="indicador">
+                <p class="label">Porciento Meta</p>
+                <p class="monto">9300000%</p>
             </div>
-            <!-- <label for="sucursal" class="form-label">Sucursal</label>
-            <select class="form-select form-select-sm mb-3" id="sucursal">
-                <option selected>--seleccione sucursal--</option>
-                <option value="1">Medilink Charles</option>
-                <option value="2">Medilink Sabana Perdida</option>
-              </select> -->
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <div class="indicador">
+                <p class="label">Porciento Real</p>
+                <p class="monto">9300000%</p>
+            </div>
         </div>
-    </form>
-</div>
+    </div>
+
+    
+</div>  
+
+
