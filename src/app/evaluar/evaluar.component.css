@@ -1,11 +1,33 @@
 .container{
-    width: 460px;
+    /* width: 660px; */
 }
 
 h2{
-    color: rgb(124, 131, 235);
+    color: rgb(150, 156, 255);
 }
 
 label{
-    color: white;
+    color: rgb(161, 197, 255);
+    margin-bottom: 4px;
+}
+
+input, textarea{
+    background-color: rgba(46, 45, 45, 0.721);
+    border: 1px solid rgb(202, 36, 202);
+    color: yellow;
+}
+
+select{
+    background-color: rgba(46, 45, 45, 0.721);
+    border: 1px solid rgb(202, 36, 202);
+}
+
+input:focus{
+    background-color: rgba(0, 0, 0, 0.634);
+    color: yellow;
+}
+
+textarea:focus{
+    background-color: rgba(0, 0, 0, 0.634);
+    color: yellow;
 }

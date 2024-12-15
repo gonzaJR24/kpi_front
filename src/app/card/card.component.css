@@ -7,6 +7,7 @@
 
 .card:hover{
     filter: brightness(1.2); /* Increase brightness by 30% */
+    cursor: pointer;
 }
 
 .title{
