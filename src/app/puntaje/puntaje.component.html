@@ -1,0 +1,42 @@
+<app-home></app-home>
+<div class="container">
+    <h2 class="text-center mt-3">Asignacion Puntajes</h2>
+
+    <table class="table table-hover table-bordered mt-5">
+        <thead>
+          <tr>
+            <th scope="col">Empleado</th> 
+            <th scope="col">Fecha Evaluacion</th>
+            <th scope="col">Actitudes</th>
+            <th scope="col">Puntualidad</th>
+            <th scope="col">Calificacion Lider</th>
+            <th scope="col">NPS</th>
+            <th scope="col">Especifico 1</th>
+            <th scope="col">Especifico 2</th>
+            <th scope="col">Puntaje Total</th>
+            <th scope="col">Comentario</th>
+            <th scope="col" class="text-center">Funciones</th>
+
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of puntajes">
+            <th>{{(item.empleado.nombre+" "+item.empleado.apellido)|json}}</th>
+            <td>{{item.fechaEvaluacion | date:'mediumDate'}} </td>
+            <td>{{item.actitudesGestionComportamiento}}</td>
+            <td>{{item.ausenciaPuntualidad}}</td>
+            <td>{{item.calificacionLider}}</td>
+            <td>{{item.nps}}</td>
+            <td>{{item.especifico1}}</td>
+            <td>{{item.especifico2}}</td>
+            <td>{{item.puntajeTotal}}</td>
+            <td>{{item.comentario}}</td>
+            <td class="d-flex">
+                <button class="btn mx-3" (click)="EditPuntajeAlert($event, item)"><i class="fa-solid fa-pen-to-square"></i></button>
+                <button class="btn mx-3"><i class="fa-solid fa-print"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>

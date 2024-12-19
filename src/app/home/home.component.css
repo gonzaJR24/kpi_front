@@ -1,0 +1,32 @@
+.nav{
+    background-color: rgb(70, 21, 148);
+    color: white;
+    padding: 4px;
+}
+
+.nav_ul{
+    display: flex;   
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nav_menu{
+    margin-right: 60px;
+    display: flex;
+    position: absolute;
+    right: 0;
+}
+
+.nav_li{
+    margin-left: 30px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.nav_li:hover{
+    color: rgb(251, 222, 0);
+}
+
+.nav_img{
+    margin-left: 20px;
+}

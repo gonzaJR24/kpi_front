@@ -1,0 +1,27 @@
+.fa-pen-to-square:hover{
+    color: rgb(255, 102, 0);
+}
+
+.fa-trash:hover{
+    color: red;
+}
+
+.fa-print:hover{
+    color: blue;
+}
+
+.fa-pen:hover{
+    color: rgb(76, 168, 0);
+}
+
+thead tr th{
+    color: rgb(88, 72, 235);
+}
+
+h2{
+    color: rgb(17, 27, 167);
+}
+
+table{
+    border: 3px solid rgba(89, 5, 110, 0.527);
+}

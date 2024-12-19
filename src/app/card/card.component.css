@@ -1,0 +1,23 @@
+.card {
+    border-radius: 8px;
+    color: #fff;
+    width: 20rem;
+    height: 10rem;
+}
+
+.card:hover{
+    filter: brightness(1.2); /* Increase brightness by 30% */
+    cursor: pointer;
+}
+
+.title{
+    margin: 10px;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.amount{
+    margin: 10px;
+    font-weight: 700;
+    font-size: 30px;
+}
