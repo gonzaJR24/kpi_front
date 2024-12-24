@@ -19,7 +19,6 @@ export class EmpleadosComponent implements OnInit{
     const url=(this.env.empleados as any).urlLocal;
     this.http.get(url).subscribe(response=>{
       this.empleados=response;
-      console.log(response)
     })
   }
   
@@ -146,14 +145,8 @@ export class EmpleadosComponent implements OnInit{
 
   AddEmpleadoAlert(e: Event) {
     e.preventDefault();
-    const url=(this.env.sexo as any).urlLocal;
     const urlArea=(this.env.area as any).urlLocal;
     const urlCargo=(this.env.cargo as any).urlLocal;
-
-
-    this.http.get(url).subscribe(response=>{
-      this.data=response;
-    });
 
     this.http.get(urlArea).subscribe(response=>{
       this.area=response;
@@ -180,13 +173,6 @@ export class EmpleadosComponent implements OnInit{
       }
     });
 
-
-    this.data.forEach((item: any) => {
-      if(item!=null){
-        optionsHtml += `<option value="${item.id}">${item.sexo}</option>`;
-      }
-    });
-
     
     Swal.fire({
       title: 'Agregar Empleado',
@@ -202,12 +188,6 @@ export class EmpleadosComponent implements OnInit{
             <label for="apellido" class="form-label">Apellido</label>
             <input type="text" class="form-control" id="apellido" name='apellido'>
           </div>
-
-          <label for="sexo" class="form-label">Sexo</label>
-            <select class="form-select form-select-sm mb-3" id="sexo" name="sexo">
-                <option selected>--seleccione--</option>
-                ${optionsHtml}
-            </select>
 
           <label for="area" class="form-label">Area</label>
             <select class="form-select form-select-sm mb-3" id="area" name="area">
@@ -236,15 +216,14 @@ export class EmpleadosComponent implements OnInit{
 
       const nombre = (document.getElementById('nombre') as HTMLSelectElement).value;
       const apellido = (document.getElementById('apellido') as HTMLInputElement).value;
-      const sexo = (document.getElementById('sexo') as HTMLInputElement).value;
       const area = (document.getElementById('area') as HTMLSelectElement).value;
       const cargo= (document.getElementById('cargo') as HTMLSelectElement).value;
 
       const url = (this.env.empleados as any).urlLocal;
 
-      if (nombre !== '' && apellido !== '' && sexo !== '' && area !== '' && cargo !== '') {
+      if (nombre !== '' && apellido !== '' && area !== '' && cargo !== '') {
 
-        this.http.post(url, { nombre, apellido, sexo, cargo, area }).subscribe({
+        this.http.post(url, { nombre, apellido, cargo, area }).subscribe({
           next: () => {
             Swal.fire(`Empleado agregado`, `El cargo es ${cargo}`, 'success');
             setTimeout(() => {

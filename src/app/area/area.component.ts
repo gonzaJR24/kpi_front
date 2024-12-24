@@ -99,7 +99,6 @@ export class AreaComponent implements OnInit {
       const url = (this.env.area as any).urlLocal;
 
       if (nombreArea !== '' && sucursal !== '' && gerente !== '') {
-
         this.http.put(url+"/"+area.id, { nombreArea, sucursal, gerente }).subscribe({
           next: () => {
             Swal.fire(`Area editada`, 'success');
@@ -147,7 +146,7 @@ export class AreaComponent implements OnInit {
 
     e.preventDefault();
     Swal.fire({
-      title: 'Editar Area',
+      title: 'Agregar Area',
       showConfirmButton: false,
       html: `
         <form id="addAreaForm">
