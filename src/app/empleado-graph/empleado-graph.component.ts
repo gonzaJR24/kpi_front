@@ -7,12 +7,16 @@ import { Router } from '@angular/router';
   styleUrl: './empleado-graph.component.css'
 })
 export class EmpleadoGraphComponent {
-  constructor(private routes:Router){}
-    redirectEmpresaBar(){
-      this.routes.navigate(['empresaBar'])
-    }
-  
-    redirectEmpresa(){
-      this.routes.navigate(['empresa'])
-    }
+  redirectEmpleadoBar() {
+    this.routes.navigate(['empleadoBar'])
+  }
+
+  constructor(private routes: Router) { }
+  redirectEmpresaBar() {
+    this.routes.navigate(['empresaBar'])
+  }
+
+  redirectEmpresa() {
+    this.routes.navigate(['empresa'])
+  }
 }

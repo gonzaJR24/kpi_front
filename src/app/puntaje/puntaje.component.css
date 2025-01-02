@@ -19,10 +19,19 @@ thead tr th{
 }
 
 h2{
-    color: rgb(17, 27, 167);
+    color: rgb(199, 202, 235);
 }
 
+
 table{
-    border: 6px solid rgba(89, 5, 110, 0.527);
+    border-color: purple;
     text-align: center;
+    height:110px;
+}
+
+.d-flex{
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }

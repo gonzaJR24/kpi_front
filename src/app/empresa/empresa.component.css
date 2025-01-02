@@ -1,7 +1,6 @@
 :root{
     --fin:180;
     --fin2:2
-
 }
 
 * { 
@@ -10,17 +9,12 @@
     overflow-y: hidden;
 }
 
-body, html {
-    height: 100%; /* Ensure the body and html take up the full height */
-    margin: 0;
-}
-
 .container1 {
-    display: flex; /* Asegura el comportamiento de Flexbox */
+    display: flex; 
     flex-direction: row;
     flex-wrap: wrap;
     height: calc(100vh - 90px);
-    overflow: auto; /* Permite el desplazamiento del contenido */
+    overflow: auto; 
 }
 
 
@@ -30,18 +24,15 @@ body, html {
     height: 100%;
     padding-right: 20px;
     box-sizing: border-box;
-    flex-shrink: 0; /* Prevent shrinking */
 }
 
 .chart-container {
     display: flex;
     justify-content: space-around;
-    /* margin-top: 100px; */
     flex-grow: 1;
-    /* background-color: rgb(255, 255, 255); */
     height: 70%;
     overflow: hidden;
-    padding: 20px; /* Add padding for some space */
+    padding: 20px; 
 }
 
 ul li {
@@ -51,13 +42,13 @@ ul li {
     text-align: center;
     font-size: 20px;
     margin-right: 30px;
-    transition: color 0.3s ease; /* Smooth transition */
+    transition: color 0.3s ease;
 }
 
 ul li:hover {
     color: purple;
     cursor: pointer;
-    transform: scale(1.05); /* Slightly enlarge on hover */
+    transform: scale(1.05);
 }
 
 
@@ -67,8 +58,8 @@ ul li:hover {
     justify-content: center;
     align-items: center;
     text-align: center;
-    width: 90%; /* Make form width more fluid */
-    max-width: 400px; /* Limit width on larger screens */
+    width: 90%;
+    max-width: 400px;
     margin: auto;
     border: 1px solid purple;
     border-radius: 40px;
@@ -77,8 +68,8 @@ ul li:hover {
 }
 
 .form-control {
-    width: 100%; /* Make form control take full width */
-    max-width: 300px; /* Limit width for large screens */
+    width: 100%; 
+    max-width: 300px;
     border: 1px solid purple;
     border-radius: 20px;
 }
@@ -100,7 +91,7 @@ ul li:hover {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 2px solid #cdcccc;
+    border: 10px solid #a713e2;
     position: absolute;
     top: 0;
     left: 0;
@@ -113,10 +104,6 @@ ul li:hover {
     position: absolute;
     top: 0;
     z-index: 1;
-}
-
-.progress .progress-left {
-    left: 0;
 }
 
 .progress .progress-bar {
@@ -167,7 +154,7 @@ ul li:hover {
 }
 
 .progress.blue .progress-bar {
-    border-color: #049dff;
+    border-color: #6ce43d;
 }
 
 
@@ -179,9 +166,6 @@ ul li:hover {
     animation: loading-3 1.8s linear forwards;
 }
 
-.progress.yellow .progress-left .progress-bar {
-    animation: none;
-}
 
 @keyframes loading-1 {
   0% {
@@ -217,12 +201,11 @@ canvas {
     height: 400px;
     margin: auto;
     display: block;
-    border: 1px solid #d69f15; /* Opcional, para verificar si se renderiza */
+    border: 3px solid #d69f15;
+    padding: 20px;
   }
 
  .bar-chart{
-    /* border: 1px solid rgb(191, 201, 12); */
-    /* border-left: none; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -232,12 +215,12 @@ canvas {
  .bar{
     justify-content: center;
  }
+ 
  .card-container {
     margin-top: 14px;
     display: flex;
     justify-content: center;
     gap: 1rem;
-    /* padding: 10px; */
 }
 
 label{

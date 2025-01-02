@@ -1,25 +1,37 @@
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
-<div class="left-container">
-</div>
-<div class="right-container">
-    <div class="right-container__box">
-        <div class="right-container-box">
-            <h2 class="right-container__h2">Nice to see you!</h2>
-            <p class="right-container__p">Enter your email and password to sign in</p>
+<div class="container d-flex justify-content-center align-items-center">
+  <section class="text-center text-lg-start col-md-8">
+    <div class="card login-card d-flex flex-row">
+      <!-- Left side with light blue background -->
+      <div class="left-container bg-lightblue d-flex align-items-center justify-content-center">
+        <img
+          src="https://github.com/gonzaJR24/HTML-CSS/blob/main/menu/Logo-fondo-blanco.png?raw=true"
+          alt="Background Image" class="w-100 img-fluid rounded-start" />
+      </div>
+
+      <!-- Right side with form -->
+      <div class="right-container d-flex flex-column justify-content-center">
+        <div class="card-body py-5 px-md-5">
+          <h2 class="text-center text-light">Iniciar Sesión</h2>
+          <form class="mt-5">
+            
+            <div class="form-outline mb-4">
+              <label for="username" class="form-control-label text-light mx-1">Nombre de usuario:</label>
+              <input type="text" id="username" name="username" required
+                class="form-control mb-2 input-dark" #username />
+            </div>
+
+            <div class="form-outline mb-4">
+              <label for="password" class="text-light mx-1">Contraseña:</label>
+              <input type="password" id="password" name="password" required
+                class="form-control input-dark" #password />
+            </div>
+
+            <div class="d-flex justify-content-center">
+              <button type="submit" class="btn btn-light mt-3">Iniciar Sesión</button>
+            </div>
+          </form>
         </div>
-        <div class="input-container">
-            <label for="email" class="right-container__label">Email</label>
-            <input type="text" class="right-container__input" name="email" placeholder="Your email address">
-            <label for="email" class="right-container__label">Password</label>
-            <input type="password" class="right-container__input" name="password" placeholder="Your password"> 
-        </div> 
-        <div class="toggle-container">
-          <input type="checkbox" class="toggle-box" name="checkbox">
-          <label for="checkbox">Remember me</label>
-        </div>
-        <button class="btn">SIGN IN</button>
-      <p class="right-container__bottom-text">Don't have an account? <strong>Sign Up</strong></p>
+      </div>
     </div>
+  </section>
 </div>

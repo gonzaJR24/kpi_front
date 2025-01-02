@@ -3,6 +3,7 @@
       <div 
       id="first"
         class="rb-tab" 
+        [class.rb-tab-active]="selectedValue === 0" 
         value="0" 
         (click)="onTabClick(0)">
         <div class="rb-spot">

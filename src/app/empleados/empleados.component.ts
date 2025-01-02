@@ -248,8 +248,11 @@ export class EmpleadosComponent implements OnInit{
     }).then((result) => {
       if (result.isConfirmed) {
         this.http.delete(url).subscribe({
-          error: () => {
+          next: () => {
             Swal.fire(`Empleado eliminado`, 'success');
+            setTimeout(() => {
+              this.ngOnInit();
+            }, 1000);
             this.routes.navigate(["empleado"]); // Revisar actualizacion al borrar
           }
         });

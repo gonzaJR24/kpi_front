@@ -24,7 +24,9 @@
 }
 
 .nav_li:hover{
-    color: rgb(251, 222, 0);
+    color: rgb(251, 255, 0);
+    scale: 1.1;
+    transform: 1s ease all;
 }
 
 .nav_img{

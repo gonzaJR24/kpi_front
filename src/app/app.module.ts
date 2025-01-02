@@ -16,7 +16,8 @@ import { CardComponent } from './card/card.component';
 import { EmpresaBarComponent } from './empresa-bar/empresa-bar.component';
 import { EmpleadoGraphComponent } from './empleado-graph/empleado-graph.component';
 import { RadiusComponent } from './radius/radius.component';
-import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { FormsModule } from '@angular/forms';
+import { UpdateProgressComponent } from './update-progress/update-progress.component'; // Import FormsModule
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
     CardComponent,
     EmpresaBarComponent,
     EmpleadoGraphComponent,
-    RadiusComponent
+    RadiusComponent,
+    UpdateProgressComponent
   ],
   imports: [
     BrowserModule,

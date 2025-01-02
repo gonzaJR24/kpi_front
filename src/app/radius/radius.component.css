@@ -6,7 +6,7 @@ html, body {
     width: 100%;
     /* width: 420px; */
     padding: 1em;
-    background: #3b22c9e5;
+    background: hsl(240, 74%, 90%);
     border-radius: .70em;
   }
   
@@ -46,7 +46,7 @@ html, body {
   }
   
   .rb-tab.rb-tab-active .rb-spot {
-    background: rgba(211, 115, 255, 0.781);
+    background: rgba(115, 25, 156, 0.781);
     border: 2px solid rgb(114, 4, 117);
   }
   

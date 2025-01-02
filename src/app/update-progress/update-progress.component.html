@@ -1,0 +1,46 @@
+<app-home></app-home>
+
+<div class="container1">
+    <div class="menu col-2">
+        <ul class="mt-2">
+            <li (click)="redirectEmpresa()"><i class="fa-solid fa-building-user"></i>
+                <p>Empresa</p>
+            </li>
+
+            <li (click)="redirectUpgrade()"><i class="fa-solid fa-arrow-up-right-dots"></i>
+                <p>Actualizar progreso</p>
+            </li>
+            <!-- <li (click)="redirectEmpleadoBar()"><i class="fa-solid fa-user"></i>
+                <p>Empleado</p>
+            </li> -->
+            <!-- <li (click)="redirectEmpresaBar()"><i class="fa-solid fa-arrow-up-right-dots"></i>
+                <p>Historico Empresa</p>
+            </li> -->
+        </ul>
+    </div>
+
+    <div class="col-10">
+        <div class="container">
+            <h2 class="text-center mt-3 mb-5">Actualizar Progreso</h2>
+
+            <div class="col-10 text-center">
+                <form>
+                    <div class="mb-3">
+                      <label class="mx-1 form-label" for="valorMeta">Meta</label>
+                      <input type="number" class="form-control" id="valorMeta" placeholder="RD$">
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label mx-1" for="progresoEmpresa">Progreso</label>
+                      <input type="number" class="form-control" id="progresoEmpresa" placeholder="RD$">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" (click)="editEmpresa()">Enviar</button>
+                  </form>
+            </div>
+
+
+            
+        </div>
+    </div>
+
+

@@ -29,7 +29,7 @@
             <td>{{item.monto | number:'1.0-2'}}</td>
             <td>{{item.rendimiento| number:'1.0-2'}}</td>
             <td>{{item.monto*(item.rendimiento/100)| number:'1.0-2'}}</td>
-            <td class="d-flex justify-content-center">
+            <td class="d-flex">
                 <button class="btn  mx-3" (click)="EditEmpleadoAlert($event, item.id)"><i class="fa-solid fa-pen-to-square"></i></button>
                 <button class="btn  mx-3" (click)="showDeleteAlert($event, item.id)"><i class="fa-solid fa-trash"></i></button>
             </td>

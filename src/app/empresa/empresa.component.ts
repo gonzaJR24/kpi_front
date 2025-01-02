@@ -28,7 +28,6 @@ export class EmpresaComponent implements OnInit {
 
   constructor(private routes: Router, private http: HttpClient) { }
 
-  // Referencia al canvas del gráfico
   @ViewChild('myChart', { static: true }) myChart!: ElementRef;
 
   ngOnInit(): void {
@@ -89,7 +88,7 @@ export class EmpresaComponent implements OnInit {
           type: 'line', // Line dataset
           label: '',
           data: [this.montoProductividad, this.montoDireccionMedica, this.montoOperaciones, this.montoServiciosGenerales, this.montoFacturacion, this.montoContabilidad],
-          borderColor: 'rgb(150, 8, 179)',
+          borderColor: 'rgb(238, 234, 0)',
           borderWidth: 3,
           fill: true,
           tension: 0.6, // Smoother line
@@ -143,5 +142,9 @@ export class EmpresaComponent implements OnInit {
 
   redirectEmpleadoBar() {
     this.routes.navigate(['empleadoBar'])
+  }
+
+  redirectUpgrade() {
+    this.routes.navigate(['updateProgress'])
   }
 }

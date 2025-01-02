@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { EvaluarComponent } from './evaluar/evaluar.component';
 import { EmpresaBarComponent } from './empresa-bar/empresa-bar.component';
 import { EmpleadoGraphComponent } from './empleado-graph/empleado-graph.component';
+import { UpdateProgressComponent } from './update-progress/update-progress.component';
 
 const routes: Routes = [
   {path:"", component:HomeComponent},
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path:"evaluar", component:EvaluarComponent},
   {path:"empresaBar", component:EmpresaBarComponent},
   {path:"empleadoBar", component:EmpleadoGraphComponent},
+  {path:"updateProgress", component:UpdateProgressComponent},
 ];
 
 @NgModule({
