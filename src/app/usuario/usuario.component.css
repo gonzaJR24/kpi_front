@@ -15,5 +15,6 @@ h2{
 }
 
 table{
-    border: 3px solid rgba(89, 5, 110, 0.527);
+    border: 6px solid rgba(89, 5, 110, 0.527);
+    text-align: center;
 }

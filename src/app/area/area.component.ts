@@ -220,7 +220,6 @@ export class AreaComponent implements OnInit {
   showDeleteAlert(e: Event, id: number) {
     e.preventDefault()
     const url = (this.env.area as any).urlLocal + "/" + id
-    console.log(url)
     Swal.fire({
       title: "Esta seguro?",
       icon: "warning",

@@ -5,9 +5,8 @@ html, body {
   .rb-box {
     width: 100%;
     /* width: 420px; */
-    margin: 10px auto;
     padding: 1em;
-    background: #013355e5;
+    background: #3b22c9e5;
     border-radius: .70em;
   }
   
@@ -15,6 +14,7 @@ html, body {
   
   .rb {
     text-align: center;
+    margin-top: -10px;
   }
   
   .rb-tab {
@@ -36,18 +36,18 @@ html, body {
     position: absolute;
     width: 30px;
     height: 30px;
-    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background: transparent;
-    border: 2px solid rgba(255,255,255,.3);
+    border: 2px solid rgb(255, 255, 255);
     border-radius: 100%;
     cursor: pointer;
+    background-color: rgb(18, 5, 136);
   }
   
   .rb-tab.rb-tab-active .rb-spot {
-    background: rgba(0, 0, 0, 0.35);
-    border: 2px solid rgba(243, 49, 128, 0.6);
+    background: rgba(211, 115, 255, 0.781);
+    border: 2px solid rgb(114, 4, 117);
   }
   
   

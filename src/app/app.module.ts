@@ -16,6 +16,7 @@ import { CardComponent } from './card/card.component';
 import { EmpresaBarComponent } from './empresa-bar/empresa-bar.component';
 import { EmpleadoGraphComponent } from './empleado-graph/empleado-graph.component';
 import { RadiusComponent } from './radius/radius.component';
+import { FormsModule } from '@angular/forms'; // Import FormsModule
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { RadiusComponent } from './radius/radius.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     HttpClientModule,
   ],
   providers: [],

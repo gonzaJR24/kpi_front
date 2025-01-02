@@ -33,7 +33,7 @@ export class EnvironmentService {
   }
 
   tipoUsuario:object={
-    urlLocal:"http://localhost:8080/api/tipo_usuario"
+    urlLocal:"http://localhost:8080/api/tipoUsuario"
   }
 
   cargo:object={

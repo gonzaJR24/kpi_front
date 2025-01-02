@@ -20,13 +20,13 @@
 
         <div class="card-container">
             <div>
-                <app-card title="Monto Obtenido" color="#2323f4" amount="1000000"></app-card>
+                <app-card title="Monto Obtenido" color="#59056e" amount={{progreso}}></app-card>
             </div>
             <div>
-                <app-card title="Meta" color="green" amount="2000000"></app-card>
+                <app-card title="Meta" color="green" amount={{meta}}></app-card>
             </div>
             <div>
-                <app-card title="Fecha" color="coral" amount="12/2024"></app-card>
+                <app-card title="Fecha" color="orange" amount={{date}}></app-card>
             </div>
         </div>
 
@@ -41,7 +41,7 @@
                     <span class="progress-right">
                         <span class="progress-bar"></span>
                     </span>
-                    <div class="progress-value">90%</div>
+                    <div class="progress-value">{{cumplimiento | number: '1.2-2'}}%</div>
                 </div>
 
             </div>
@@ -54,4 +54,6 @@
         </div>
 
     </div>
+
+    <!-- <button (click)="alertar()">pepe</button> -->
 

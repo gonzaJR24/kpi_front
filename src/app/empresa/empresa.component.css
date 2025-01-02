@@ -1,3 +1,9 @@
+:root{
+    --fin:180;
+    --fin2:2
+
+}
+
 * { 
     box-sizing: border-box;
     margin: 0;
@@ -164,9 +170,6 @@ ul li:hover {
     border-color: #049dff;
 }
 
-.progress.blue .progress-left .progress-bar {
-    animation: loading-2 1.5s linear forwards 1.8s;
-}
 
 .progress.yellow .progress-bar {
     border-color: #670edc;
@@ -181,37 +184,32 @@ ul li:hover {
 }
 
 @keyframes loading-1 {
-    0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(180deg);
-        transform: rotate(180deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(var(--fin));
+  }
 }
+
 
 @keyframes loading-2 {
-    0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(144deg);
-        transform: rotate(144deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(var(--fin2));
+  }
 }
 
-@keyframes loading-3 {
-    0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(72deg);
-        transform: rotate(72deg);
-    }
+.progress.blue .progress-left .progress-bar {
+    animation: loading-2 1.5s linear forwards 1.8s;
 }
+
+.progress .progress-bar {
+  animation-timing-function: ease-in-out;
+}
+
 
 canvas {
     width: 100%;

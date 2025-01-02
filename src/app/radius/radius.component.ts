@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-radius',
@@ -6,10 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./radius.component.css']
 })
 export class RadiusComponent {
-  selectedValue: number | null = null;
+  @Input() selectedValue: number = 0;
+  @Output() selectedValueChange = new EventEmitter<number>();
 
   onTabClick(value: number): void {
     this.selectedValue = value;
-    console.log(`Tab with value ${value} clicked.`);
+    this.selectedValueChange.emit(value);
   }
 }

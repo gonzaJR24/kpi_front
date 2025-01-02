@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { EnvironmentService } from '../environment.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-empleados',
@@ -13,7 +14,7 @@ export class EmpleadosComponent implements OnInit{
   data:any;
   cargos:any
   area:any
-  constructor(private http:HttpClient, private env:EnvironmentService){}
+  constructor(private http:HttpClient, private env:EnvironmentService, private routes:Router){}
 
   ngOnInit(): void {
     const url=(this.env.empleados as any).urlLocal;
@@ -26,7 +27,7 @@ export class EmpleadosComponent implements OnInit{
   EditEmpleadoAlert(e: Event, id: number) {
     e.preventDefault();
   
-    let objEmpleado: any;1
+    let objEmpleado: any;
     const urlEmpleado = (this.env.empleados as any).urlLocal;
     const urlSucursal = (this.env.sucursal as any).urlLocal;
     const urlCargo = (this.env.cargo as any).urlLocal;
@@ -85,12 +86,6 @@ export class EmpleadosComponent implements OnInit{
                 <input type="text" class="form-control" id="apellido" name="apellido" value="${objEmpleado.apellido}">
               </div>
   
-              <label for="sexo" class="form-label">Sexo</label>
-              <select class="form-select form-select-sm mb-3" id="sexo" name="sexo">
-                  <option value="1" ${objEmpleado.sexo === 1 ? 'selected' : ''}>masculino</option>
-                  <option value="2" ${objEmpleado.sexo === 2 ? 'selected' : ''}>femenino</option>
-              </select>
-  
               <label for="area" class="form-label">Area</label>
               <select class="form-select form-select-sm mb-3" id="area" name="area">
                   ${areasHtml}
@@ -115,14 +110,13 @@ export class EmpleadosComponent implements OnInit{
   
           const nombre = (document.getElementById('nombre') as HTMLInputElement).value;
           const apellido = (document.getElementById('apellido') as HTMLInputElement).value;
-          const sexo = (document.getElementById('sexo') as HTMLInputElement).value;
           const area = (document.getElementById('area') as HTMLInputElement).value;
           const cargo = (document.getElementById('cargo') as HTMLInputElement).value;
   
           const url = (this.env.empleados as any).urlLocal;
   
-          if (nombre !== '' && apellido !== '' && sexo !== '') {
-            this.http.put(url, { id, nombre, apellido, sexo, area, cargo }).subscribe({
+          if (nombre !== '' && apellido !== '') {
+            this.http.put(url+"/"+id, { nombre, apellido, area, cargo }).subscribe({
               next: () => {
                 Swal.fire(`Usuario editado`, 'success');
                 setTimeout(() => {
@@ -156,7 +150,6 @@ export class EmpleadosComponent implements OnInit{
       this.cargos=response;
     });
 
-    let optionsHtml!:string;
     let areaHtml!:string;
     let cargoHtml!:string;
 
@@ -256,10 +249,8 @@ export class EmpleadosComponent implements OnInit{
       if (result.isConfirmed) {
         this.http.delete(url).subscribe({
           error: () => {
-            Swal.fire(`Usuario eliminado`, 'success');
-            setTimeout(() => {
-              this.ngOnInit();
-            }, 1000);
+            Swal.fire(`Empleado eliminado`, 'success');
+            this.routes.navigate(["empleado"]); // Revisar actualizacion al borrar
           }
         });
 

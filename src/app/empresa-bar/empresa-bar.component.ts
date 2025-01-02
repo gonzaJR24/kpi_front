@@ -36,19 +36,19 @@ export class EmpresaBarComponent {
           {
             type: 'bar', // Stacked bar dataset
             label: 'Rendimiento',
-            data: [30, 40, 45, 50, 60, 70],
+            data: [30, 40, 45, 50, 60, 70,100,89,43,78,45,97],
             backgroundColor: 'rgb(139, 14, 139)',
-            stack: 'stack1', // Stacking group identifier
+            stack: 'combined', // Stacking group identifier
           },
           
           {
             type: 'line', // Line dataset
             label: '',
-            data: [30, 40, 45, 50, 60, 70],
+            data: [30, 40, 45, 50, 60, 70,100,89,43,78,45,97],
             borderColor: 'rgb(210, 39, 76)',
             borderWidth: 3,
-            fill: false,
-            tension: 0.8, // Smoother line
+            fill: true,
+            tension: 1, // Smoother line
           },
         ],
       },
@@ -61,10 +61,10 @@ export class EmpresaBarComponent {
         },
         scales: {
           x: {
-            stacked: true, // Enable stacking on the X-axis
+            stacked: true,
           },
           y: {
-            stacked: true, // Enable stacking on the Y-axis
+            stacked: true,
           },
         },
       },

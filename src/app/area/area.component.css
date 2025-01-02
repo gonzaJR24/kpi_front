@@ -21,5 +21,6 @@ h2{
 }
 
 table{
-    border: 3px solid rgba(89, 5, 110, 0.527);
+    border: 6px solid #59056e86;
+    text-align: center;
 }

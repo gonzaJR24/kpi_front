@@ -1,48 +1,51 @@
 <app-home></app-home>
 
-<div class="container">
+<div class="container col-8">
     <h2 class="text-center mt-3 mb-5">Evaluar Empleado</h2>
 
     <form>
-        <label for="empleado">Empleado</label>
+        <label for="empleado">Seleccionar Empleado</label>
         <div>
-            <!-- <select class="form-select form-select-sm mb-3" id="empleado" name="empleado">
+            <select class="form-select form-select-sm mb-3" id="empleado" name="empleado">
                 <option selected>--seleccione empleado--</option>
                 <option *ngFor="let item of empleados" value={{item.id}}>{{item.name}}</option>
-            </select> -->
-           <app-radius></app-radius>
+            </select>
         </div>
 
         <hr>
         <label for="actitudes">Actitudes</label>
-        <!-- <input type="number" class="form-control mb-3" id="actitudes" min="0" max="10" name="actitudesGestionComportamiento"> -->
-        <app-radius></app-radius>
-        <hr>
-        <label for="puntualidad">Puntualidad</label>
-        <!-- <input type="number" class="form-control mb-3" id="puntualidad" min="0" max="10" name="ausenciaPuntualidad"> -->
-        <app-radius></app-radius>
-        <hr>
-        <label for="calificacionLider">Calificacion Lider</label>
-        <!-- <input type="number" class="form-control mb-3" id="calificacionLider" min="0" max="10" name="calificacionLider"> -->
-        <app-radius></app-radius>
-        <hr>
-        <label for="nps">NPS</label>
-        <!-- <input type="number" class="form-control mb-3" id="nps" min="0" max="10" name="nps"> -->
-        <app-radius></app-radius>
-        <hr>
-        <label for="especifico1">Especifico 1</label>
-        <!-- <input type="number" class="form-control mb-3" id="especifico1" min="0" max="10" name="especifico1"> -->
-        <app-radius></app-radius>
-        <hr>
-        <label for="especifico2">Especifico 2</label>
-        <!-- <input type="number" class="form-control mb-3" id="especifico2" min="0" max="10" name="especifico2"> -->
-        <app-radius></app-radius>
-        <hr>
-        <label for="comentario">Comentario</label>
-        <textarea class="form-control" id="comentario" name="comentario"></textarea>
-
-      
+        <app-radius 
+          [(selectedValue)]="actitudesGestionComportamiento">
+        </app-radius>
         
+        <label for="puntualidad">Puntualidad</label>
+        <app-radius 
+          [(selectedValue)]="ausenciaPuntualidad">
+        </app-radius>
+        
+        <label for="calificacionLider">Calificación Líder</label>
+        <app-radius 
+          [(selectedValue)]="calificacionLider">
+        </app-radius>
+        
+        <label for="nps">NPS</label>
+        <app-radius 
+          [(selectedValue)]="nps">
+        </app-radius>
+        
+        <label for="especifico1">Especifico 1</label>
+        <app-radius 
+          [(selectedValue)]="especifico1">
+        </app-radius>
+        
+        <label for="especifico2">Especifico 2</label>
+        <app-radius 
+          [(selectedValue)]="especifico2">
+        </app-radius>
+        
+        <label for="comentario">Comentario</label>
+        <textarea class="form-control" id="comentario" [(ngModel)]="comentario" name="comentario"></textarea>
+
         <div class="d-flex justify-content-center mb-4">
             <button class="btn btn-primary mt-3" (click)="addPuntajeAlert($event)">Evaluar</button>
         </div>
