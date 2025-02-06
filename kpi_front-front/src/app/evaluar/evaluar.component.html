@@ -1,0 +1,53 @@
+<app-home></app-home>
+
+<div class="container col-8">
+    <h2 class="text-center mt-3 mb-5">Evaluar Empleado</h2>
+
+    <form>
+        <label for="empleado">Seleccionar Empleado</label>
+        <div>
+            <select class="form-select form-select-sm mb-3" id="empleado" name="empleado">
+                <option selected>--seleccione empleado--</option>
+                <option *ngFor="let item of empleados" value={{item.id}}>{{item.name}}</option>
+            </select>
+        </div>
+
+        <hr>
+        <label for="actitudes">Actitudes</label>
+        <app-radius 
+          [(selectedValue)]="actitudesGestionComportamiento">
+        </app-radius>
+        
+        <label for="puntualidad">Puntualidad</label>
+        <app-radius 
+          [(selectedValue)]="ausenciaPuntualidad">
+        </app-radius>
+        
+        <label for="calificacionLider">Calificación Líder</label>
+        <app-radius 
+          [(selectedValue)]="calificacionLider">
+        </app-radius>
+        
+        <label for="nps">NPS</label>
+        <app-radius 
+          [(selectedValue)]="nps">
+        </app-radius>
+        
+        <label for="especifico1">Especifico 1</label>
+        <app-radius 
+          [(selectedValue)]="especifico1">
+        </app-radius>
+        
+        <label for="especifico2">Especifico 2</label>
+        <app-radius 
+          [(selectedValue)]="especifico2">
+        </app-radius>
+        
+        <label for="comentario">Comentario</label>
+        <textarea class="form-control" id="comentario" [(ngModel)]="comentario" name="comentario"></textarea>
+
+        <div class="d-flex justify-content-center mb-4">
+            <button class="btn btn-primary mt-3" (click)="addPuntajeAlert($event)">Evaluar</button>
+        </div>
+    </form>
+</div>

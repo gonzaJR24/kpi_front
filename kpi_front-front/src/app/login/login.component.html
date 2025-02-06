@@ -1,0 +1,33 @@
+<div class="container d-flex justify-content-center align-items-center">
+  <section class="text-center text-lg-start col-md-8">
+    <div class="card login-card d-flex flex-row">
+      <div class="left-container bg-lightblue d-flex align-items-center justify-content-center">
+        <img src="https://github.com/gonzaJR24/HTML-CSS/blob/main/menu/Logo-fondo-blanco.png?raw=true"
+          alt="Background Image" class="w-100 img-fluid rounded-start" />
+      </div>
+
+      <div class="right-container d-flex flex-column justify-content-center">
+        <div class="card-body py-5 px-md-5">
+          <h2 class="text-center text-light">Iniciar Sesión</h2>
+          <form>
+            <div class="form-outline mb-4">
+              <label for="username" class="form-control-label text-light mx-1">Nombre de usuario:</label>
+              <input type="text" id="username" [(ngModel)]="username" name="username" required
+                class="form-control mb-2 input-dark" />
+            </div>
+
+            <div class="form-outline mb-4">
+              <label for="password" class="text-light mx-1">Contraseña:</label>
+              <input type="password" id="password" [(ngModel)]="password" name="password" required
+                class="form-control input-dark" />
+            </div>
+
+            <div class="d-flex justify-content-center">
+              <button type="submit" class="btn btn-light mt-3" (click)="onSubmit($event)">Iniciar Sesión</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,63 @@
+<app-home-usuario></app-home-usuario>
+
+<div class="container1">
+    <div class="menu col-2">
+        <!-- <img src="https://github.com/gonzaJR24/kpi_front/blob/main/Logo-fondo-blanco.png?raw=true" alt="" width="200"> -->
+        <ul class="mt-2">
+            <li (click)="redirectEmpresa()"><i class="fa-solid fa-building-user"></i>
+                <p>Empresa</p>
+            </li>
+
+            <!-- <li (click)="redirectUpgrade()"><i class="fa-solid fa-arrow-up-right-dots"></i>
+                <p>Actualizar progreso</p>
+            </li> -->
+            <!-- <li (click)="redirectEmpleadoBar()"><i class="fa-solid fa-user"></i>
+                <p>Empleado</p>
+            </li> -->
+            <!-- <li (click)="redirectEmpresaBar()"><i class="fa-solid fa-arrow-up-right-dots"></i>
+                <p>Historico Empresa</p>
+            </li> -->
+        </ul>
+    </div>
+
+
+    <div class="col-10">
+
+        <div class="card-container">
+            <div>
+                <app-card title="Monto Obtenido" color="#59056e" amount={{progreso}}></app-card>
+            </div>
+            <div>
+                <app-card title="Meta" color="green" amount={{meta}}></app-card>
+            </div>
+            <div>
+                <app-card title="Fecha" color="orange" amount={{date}}></app-card>
+            </div>
+        </div>
+
+
+        <div class="chart-container">
+            <label>Progreso</label>
+            <div class="round-graph">
+                <div class="progress blue" id="blue">
+                    <span class="progress-left">
+                        <span class="progress-bar"></span>
+                    </span>
+                    <span class="progress-right">
+                        <span class="progress-bar"></span>
+                    </span>
+                    <div class="progress-value">{{cumplimiento | number: '1.2-2'}}%</div>
+                </div>
+
+            </div>
+    
+            <div class="bar-chart col-6">
+                <div class="bar">
+                    <canvas #myChart></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
