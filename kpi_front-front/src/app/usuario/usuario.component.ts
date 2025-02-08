@@ -13,6 +13,7 @@ export class UsuarioComponent implements OnInit{
   usuarios:any;
   data:any;
   tipoUsuario:any;
+  area:any;
   constructor(private http:HttpClient, private env:EnvironmentService){}
 
   ngOnInit(): void {
@@ -23,11 +24,18 @@ export class UsuarioComponent implements OnInit{
   }
 
   AddAUserlert(e: Event) {
-    const url=(this.env.sucursal as any).urlLocal;
+    const url = (this.env.usuarios as any).urlLocal;
+    const urlSucursal = (this.env.sucursal as any).urlLocal;
     const urlTipoUsuario=(this.env.tipoUsuario as any).urlLocal;
+    const urlArea=(this.env.area as any).urlLocal;
 
-    this.http.get(url).subscribe(response=>{
+
+    this.http.get(urlSucursal).subscribe(response=>{
       this.data=response;
+    });
+
+    this.http.get(urlArea).subscribe(response=>{
+      this.area=response;
     });
 
     this.http.get(urlTipoUsuario).subscribe(response=>{
@@ -36,6 +44,7 @@ export class UsuarioComponent implements OnInit{
     
     let optionsHtml!:string;
     let tipoUsuarioHtml!:string;
+    let areaHtml!:string;
 
     this.data.forEach((item: any) => {
       if(item!=null){
@@ -48,6 +57,13 @@ export class UsuarioComponent implements OnInit{
         tipoUsuarioHtml += `<option value="${item.idTipoUsuario}">${item.tipoUsuario}</option>`;
       }
     });
+
+    this.area.forEach((item: any) => {
+      if(item!=null){
+        areaHtml += `<option value="${item.id}">${item.nombreArea}</option>`;
+      }
+    });
+
 
     e.preventDefault();
     Swal.fire({
@@ -87,6 +103,14 @@ export class UsuarioComponent implements OnInit{
             </select>
           </div>
 
+          <div class="mb-3">
+            <label for="area" class="form-label">Area</label>
+            <select class="form-select" id="area" name='area'>
+              <option selected>--seleccione--</option>
+              ${areaHtml}
+            </select>
+          </div>
+
           <button type="submit" class="btn btn-primary" id='btn'>Submit</button>
         </form>
       `,
@@ -106,12 +130,12 @@ export class UsuarioComponent implements OnInit{
       const nombreUsuario = (document.getElementById('nombreUsuario') as HTMLSelectElement).value;
       const contrasena = (document.getElementById('contrasena') as HTMLSelectElement).value;
       const tipoUsuario = Number((document.getElementById('tipoUsuario') as HTMLSelectElement).value);
-      const url = (this.env.usuarios as any).urlLocal;
+      const area = Number((document.getElementById('area') as HTMLSelectElement).value);
+
 
       if (nombres !== '' && apellidos !== '' && sucursal !== 0 && nombreUsuario!=='' && contrasena!=='' &&  tipoUsuario!==0) {
-        console.log(nombres, apellidos, nombreUsuario, contrasena, tipoUsuario, sucursal)
-        this.http.post(url, { nombres, apellidos, nombreUsuario, contrasena, tipoUsuario, sucursal }).subscribe({
-          error: () => {
+        this.http.post(url, { nombres, apellidos, nombreUsuario, contrasena, tipoUsuario, sucursal, area }).subscribe({
+          next: () => {
             Swal.fire(`Usuario ${nombres + " " + apellidos} agregado`, 'success');
             setTimeout(() => {
               this.ngOnInit();
@@ -185,10 +209,12 @@ EditUserlert(e: Event, usuario: any) {
             <label for="username" class="form-label">Usuario</label>
             <input type="text" class="form-control" id="username" name="username" value="${usuario.nombreUsuario}">
           </div>
+
           <div class="mb-3">
             <label for="password" class="form-label">Contrasena</label>
             <input type="text" class="form-control" id="password" name="password" value="${usuario.contrasena}">
           </div>
+
           <div class="mb-3">
             <label for="tipoUsuario" class="form-label">Tipo Usuario</label>
             <select class="form-select" id="tipoUsuario" name="tipoUsuario">

@@ -25,8 +25,9 @@ data: any;
   constructor(private http: HttpClient, private env: EnvironmentService, private route:Router) { }
 
   ngOnInit(): void {
-    const url = (this.env.empleados as any).urlLocal;
-    this.http.get(url).subscribe(response => {
+    const url = "http://localhost:8080/api/empleado/findByArea"
+    let area = sessionStorage.getItem("area");
+    this.http.post(url,{area}).subscribe(response => {
       if (response) {
         for (let empleado of response as any) {
           this.empleados.push({ name: empleado.nombre + " " + empleado.apellido, id: empleado.id })

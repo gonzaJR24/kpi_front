@@ -14,15 +14,7 @@ export class HomeComponent implements OnInit {
   constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit() {
-    // Initial load of the username
     this.loadUserName();
-
-    // Update the username whenever navigation occurs
-    // this.router.events
-    //   .pipe(filter(event => event instanceof NavigationEnd))
-    //   .subscribe(() => {
-    //     this.loadUserName();
-    //   });
   }
 
   redirectEmpresa() {

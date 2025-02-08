@@ -122,7 +122,9 @@ puntajes: any;
  
 
   showReport(id: number, comentario:string, calificacionLider:number) {
-    let url="http://192.168.4.206:8082/api/empleado/";
+    // let url="http://192.168.4.206:8082/api/empleado/";
+    const url = "http://localhost:8080/api/empleado/"
+    // let area = sessionStorage.getItem("area");
     this.http.get(url + id).subscribe((response: any) => {
       let nombreEmpleado = response.nombre + " " + response.apellido;
       let area = response.area.nombreArea;
@@ -130,10 +132,10 @@ puntajes: any;
       let mesDate=new Date(response.cargo.presupuesto.date)
       let formatttedMonth=mesDate.toLocaleString('default', { month: 'long' });
       let mes = formatttedMonth.charAt(0).toUpperCase() + String(formatttedMonth).slice(1);
-      let lider = "Enki";
+      let lider = sessionStorage.getItem("lider");
       let montofinal=response.monto*(response.rendimiento/100);
 
-      this.http.post('http://192.168.4.206:8082/view-pdf', {nombreEmpleado, area, cargo, mes, lider, calificacionLider, montofinal, comentario}, { responseType: 'blob' })
+      this.http.post('http://localhost:8080/view-pdf', {nombreEmpleado, area, cargo, mes, lider, calificacionLider, montofinal, comentario}, { responseType: 'blob' })
       .subscribe({
         next: (response) => {
           const blob = new Blob([response], { type: 'application/pdf' });

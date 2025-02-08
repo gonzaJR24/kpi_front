@@ -24,7 +24,7 @@ h2{
 
 
 table{
-    border-color: purple;
+    /* border-color: purple; */
     text-align: center;
     height:110px;
 }

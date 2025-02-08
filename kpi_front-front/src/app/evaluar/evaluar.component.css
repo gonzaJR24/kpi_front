@@ -14,13 +14,13 @@ label {
 
 input,
 textarea {
-    background-color: rgba(255, 255, 255, 0.925);
+    background-color: rgb(255, 255, 255);
     border: 2px solid rgb(19, 26, 126);
     color: rgb(255, 255, 255);
 }
 
 select {
-    background-color: rgba(240, 235, 235, 0.918);
+    background-color: rgb(240, 235, 235);
     border: 1px solid rgb(1, 6, 71);
 }
 

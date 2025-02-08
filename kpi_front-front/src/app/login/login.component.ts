@@ -19,20 +19,16 @@ export class LoginComponent {
     e.preventDefault()
     this.authService.login(this.username, this.password).subscribe(response => {
       console.log(response);
-      if (response) {
-        this.router.navigate(['/empresa']).then(success => {
-          if (success) {
-            console.log('Navigation successful');
-          } else {
-            console.error('Navigation failed');
-          }
-        });
-      } else {
-        // Maneja el caso en que la respuesta no contenga los datos esperados
-        console.error('Respuesta inesperada del servidor', response);
+      sessionStorage.setItem("lider",response.username.nombres+" "+response.username.apellidos);
+      sessionStorage.setItem("area",response.username.area);
+      if (response.username.tipoUsuario.tipoUsuario=="admin") {
+        this.router.navigate(['/empresa'])
+      } 
+      if(response.username.tipoUsuario.tipoUsuario=="user"){
+        this.router.navigate(['/empresaUsuario'])
       }
     }, error => {
-      console.error('Login failed', error);
+      alert("Usuario o Contrasena Incorrectos")
     });
   }
 }

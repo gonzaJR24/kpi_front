@@ -18,8 +18,8 @@ h2{
     color: rgb(199, 202, 235);
 }
 
-table{
-    border: 6px solid rgba(89, 5, 110, 0.527);
-    text-align:center
+.table{
+    /* border: 6px solid rgba(89, 5, 110, 0.527); */
+    text-align:center;
 }
 

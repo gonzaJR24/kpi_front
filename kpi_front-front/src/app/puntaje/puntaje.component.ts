@@ -21,16 +21,12 @@ export class PuntajeComponent implements OnInit {
   }
 
   EditPuntajeAlert(e: Event, puntaje: any) {
-  
-    // e.preventDefault();
-  
-    const urlEditPuntaje = (this.env.puntaje as any).urlLocal;
-    console.log(urlEditPuntaje+"/"+puntaje.id)
-  
-        Swal.fire({
-          title: 'Editar Puntaje',
-          showConfirmButton: false,
-          html: `
+    e.preventDefault()
+
+    Swal.fire({
+      title: 'Editar Puntaje',
+      showConfirmButton: false,
+      html: `
             <form id="editPuntajeForm">
               <div class="mb-3">
                 <label for="actitudes" class="form-label">Actitudes</label>
@@ -65,62 +61,59 @@ export class PuntajeComponent implements OnInit {
               </div>
             </form>
           `,
-          focusConfirm: false,
-        }).then(() => {
-          const form = document.getElementById('editPuntajeForm') as HTMLFormElement;
-  
-          form?.addEventListener('submit', (submitEvent) => {
-            submitEvent.preventDefault();
-  
-            const actitudesGestionComportamiento = (document.getElementById('actitudes') as HTMLInputElement).value;
-            const ausenciaPuntualidad = (document.getElementById('puntualidad') as HTMLInputElement).value;
-            const calificacionLider = (document.getElementById('calificacionLider') as HTMLInputElement).value;
-            const nps = (document.getElementById('nps') as HTMLInputElement).value;
-            const especifico1 = (document.getElementById('especifico1') as HTMLInputElement).value;
-            const especifico2 = (document.getElementById('especifico2') as HTMLInputElement).value;
-            const comentario = (document.getElementById('comentario') as HTMLInputElement).value;
-            console.log(ausenciaPuntualidad, especifico1, especifico2, nps, actitudesGestionComportamiento, calificacionLider, comentario)
-            const urlEditPuntaje = (this.env.puntaje as any).urlLocal;
-            console.log(urlEditPuntaje+ puntaje.id)
-            if (actitudesGestionComportamiento && ausenciaPuntualidad && calificacionLider && nps && especifico1 && especifico2 && comentario) {
-              this.http.put(urlEditPuntaje+puntaje.id, {
-                ausenciaPuntualidad, especifico1, especifico2, nps, actitudesGestionComportamiento, calificacionLider, comentario
-              }).subscribe({
-                next: () => {
-                  Swal.fire(`Usuario editado`, 'success');
-                  setTimeout(() => {
-                    this.ngOnInit();
-                  }, 1000);
-                },
-                error: (err) => {
-                  console.error('Error adding user:', err);
-                  Swal.fire('Error', 'No se pudo agregar el usuario', 'error');
-                },
-              });
-            } else {
-              Swal.fire('Error', 'Por favor, completa todos los campos', 'error');
-            }
-          });
+      focusConfirm: false,
+    })
+    const form = document.getElementById('editPuntajeForm') as HTMLFormElement;
+
+    form?.addEventListener('submit', (submitEvent) => {
+      submitEvent.preventDefault();
+
+      const actitudesGestionComportamiento = (document.getElementById('actitudes') as HTMLInputElement).value;
+      const ausenciaPuntualidad = (document.getElementById('puntualidad') as HTMLInputElement).value;
+      const calificacionLider = (document.getElementById('calificacionLider') as HTMLInputElement).value;
+      const nps = (document.getElementById('nps') as HTMLInputElement).value;
+      const especifico1 = (document.getElementById('especifico1') as HTMLInputElement).value;
+      const especifico2 = (document.getElementById('especifico2') as HTMLInputElement).value;
+      const comentario = (document.getElementById('comentario') as HTMLInputElement).value;
+
+      const urlEditPuntaje = (this.env.puntaje as any).urlLocal;
+      console.log(urlEditPuntaje + "/"+ puntaje.id)
+      // if (actitudesGestionComportamiento && ausenciaPuntualidad && calificacionLider && nps && especifico1 && especifico2 && comentario) {
+        this.http.put(`${urlEditPuntaje}/${puntaje.id}`, {
+          ausenciaPuntualidad, especifico1, especifico2, nps, actitudesGestionComportamiento, calificacionLider, comentario
+        }).subscribe({
+          next: () => {
+            Swal.fire(`Puntaje editado`, 'success');
+            setTimeout(() => {
+              this.ngOnInit();
+            }, 1000);
+          },
         });
-      }
-  
+      // } else {
+        // Swal.fire('Error', 'Por favor, completa todos los campos', 'error');
+      // }
+    });
+  };
 
- 
 
-  showReport(id: number, comentario:string, calificacionLider:number) {
-    // let url="http://192.168.4.206:8082/api/empleado/";
-    let url=(this.env.empleados as any).urlLocal;
-    this.http.get(url +"/"+ id).subscribe((response: any) => {
-      let nombreEmpleado = response.nombre + " " + response.apellido;
-      let area = response.area.nombreArea;
-      let cargo = response.cargo.nombreCargo;
-      let mesDate=new Date(response.cargo.presupuesto.date)
-      let formatttedMonth=mesDate.toLocaleString('default', { month: 'long' });
-      let mes = formatttedMonth.charAt(0).toUpperCase() + String(formatttedMonth).slice(1);
-      let lider = response.lider;
-      let montofinal=response.monto*(response.rendimiento/100);
 
-      this.http.post('http://localhost:8080/view-pdf', {nombreEmpleado, area, cargo, mes, lider, calificacionLider, montofinal, comentario}, { responseType: 'blob' })
+
+
+showReport(id: number, comentario: string, calificacionLider: number) {
+  // let url="http://192.168.4.206:8082/api/empleado/";
+  let url = (this.env.empleados as any).urlLocal;
+  this.http.get(url + "/" + id).subscribe((response: any) => {
+    console.log(response)
+    let nombreEmpleado = response.nombre + " " + response.apellido;
+    let area = response.area.nombreArea;
+    let cargo = response.cargo.nombreCargo;
+    let mesDate = new Date(response.cargo.presupuesto.date)
+    let formatttedMonth = mesDate.toLocaleString('default', { month: 'long' });
+    let mes = formatttedMonth.charAt(0).toUpperCase() + String(formatttedMonth).slice(1);
+    let lider = sessionStorage.getItem("lider");
+    let montofinal = response.monto * (response.rendimiento / 100);
+
+    this.http.post('http://localhost:8080/view-pdf', { nombreEmpleado, area, cargo, mes, lider, calificacionLider, montofinal, comentario }, { responseType: 'blob' })
       .subscribe({
         next: (response) => {
           const blob = new Blob([response], { type: 'application/pdf' });
@@ -131,8 +124,8 @@ export class PuntajeComponent implements OnInit {
           console.error('Error generating PDF:', error);
         }
       });
-    })
-  }
+  })
+}
 
 
 }

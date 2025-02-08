@@ -40,7 +40,7 @@ export class HomeUsuarioComponent {
 
 
   redirectLogin() {
-    this.router.navigate(["login"]);
+    this.router.navigate([""]);
   }
 
   redirectEvaluar() {
@@ -52,15 +52,13 @@ loadUserName() {
   const storedUserName = sessionStorage.getItem('userName');
   if (storedUserName) {
     this.userName = storedUserName;
-  } else {
-    this.logout(); // Handle cases where the user is not logged in
-  }
+  } 
 }
 
 
   logout() {
     localStorage.removeItem('sessionToken');
     localStorage.removeItem('userName');
-    this.router.navigate(['/login']);
+    this.router.navigate(['']);
   }
 }
