@@ -19,7 +19,7 @@ export class EmpleadoUserComponent {
   constructor(private http:HttpClient, private env:EnvironmentService, private routes:Router){}
 
   ngOnInit(): void {
-    const url="http://localhost:8080/api/empleado/findByArea"
+    const url="http://192.168.4.206:8082/api/empleado/findByArea"
     let area=sessionStorage.getItem("area");
     this.http.post(url,{area}).subscribe(response=>{
       this.empleados=response;

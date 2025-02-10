@@ -30,7 +30,7 @@ export class EmpresaUsuarioComponent {
   
     ngOnInit(): void {
   
-      this.http.get("http://localhost:8080/api/empresa").subscribe((response: any) => {
+      this.http.get("http://192.168.4.206:8082/api/empresa").subscribe((response: any) => {
         this.progreso = "RD$ " + response[0].progresoEmpresa;
         this.meta = "RD$ " + response[0].valorMeta;
         this.cumplimiento = (response[0].progresoEmpresa * 100) / response[0].valorMeta;
@@ -48,13 +48,13 @@ export class EmpresaUsuarioComponent {
   
       })
   
-      this.http.get("http://localhost:8080/api/area").subscribe((response: any) => {
+      this.http.get("http://192.168.4.206:8082/api/area").subscribe((response: any) => {
         this.dataAreas = response;
         this.cargarDatos();
       })
   
   
-      this.http.get("http://localhost:8080/api/presupuesto/ultimoPresupuesto").subscribe((response: any) => {
+      this.http.get("http://192.168.4.206:8082/api/presupuesto/ultimoPresupuesto").subscribe((response: any) => {
         this.date=response.date;
       })
   

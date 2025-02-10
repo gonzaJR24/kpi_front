@@ -32,7 +32,7 @@ export class EmpresaComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.http.get("http://localhost:8080/api/empresa").subscribe((response: any) => {
+    this.http.get("http://192.168.4.206:8082/api/empresa").subscribe((response: any) => {
       this.progreso =response[0].progresoEmpresa;
       this.meta= response[0].valorMeta;
       this.cumplimiento = (response[0].progresoEmpresa * 100) / response[0].valorMeta;
@@ -50,13 +50,13 @@ export class EmpresaComponent implements OnInit {
 
     })
 
-    this.http.get("http://localhost:8080/api/area").subscribe((response: any) => {
+    this.http.get("http://192.168.4.206:8082/api/area").subscribe((response: any) => {
       this.dataAreas = response;
       this.cargarDatos();
     })
 
 
-    this.http.get("http://localhost:8080/api/presupuesto/ultimoPresupuesto").subscribe((response: any) => {
+    this.http.get("http://192.168.4.206:8082/api/presupuesto/ultimoPresupuesto").subscribe((response: any) => {
       this.date=response.date;
     })
 
@@ -76,12 +76,12 @@ export class EmpresaComponent implements OnInit {
           label: '% Rendimiento',
           data: [this.montoProductividad, this.montoDireccionMedica, this.montoOperaciones, this.montoServiciosGenerales, this.montoFacturacion, this.montoContabilidad],
           backgroundColor: [
-            'rgba(255, 99, 133, 0.78)',
+            'rgb(248, 44, 89)',
             'rgba(212, 235, 251, 0.88)',
             'rgba(255, 207, 86, 0.89)',
             'rgba(75, 192, 192, 0.88)',
             'rgba(153, 102, 255, 0.88)',
-            'rgba(255, 160, 64, 0.9)'
+            'rgb(255, 148, 41)'
           ],
 
         },{

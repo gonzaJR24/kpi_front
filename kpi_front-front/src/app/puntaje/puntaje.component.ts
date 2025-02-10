@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { EnvironmentService } from '../environment.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-puntaje',
@@ -12,12 +13,12 @@ export class PuntajeComponent implements OnInit {
   puntajes: any;
   data: any;
   nombre!: string;
-  constructor(private http: HttpClient, private env: EnvironmentService) { }
+  constructor(private http: HttpClient, private env: EnvironmentService, private routes:Router) { }
   ngOnInit(): void {
-    const url = (this.env.puntaje as any).urlLocal;
-    this.http.get(url).subscribe(response => {
-      this.puntajes = response;
-    })
+    // const url = (this.env.puntaje as any).urlLocal;
+    // this.http.get(url).subscribe(response => {
+    //   this.puntajes = response;
+    // })
   }
 
   EditPuntajeAlert(e: Event, puntaje: any) {
@@ -77,20 +78,21 @@ export class PuntajeComponent implements OnInit {
       const comentario = (document.getElementById('comentario') as HTMLInputElement).value;
 
       const urlEditPuntaje = (this.env.puntaje as any).urlLocal;
-      console.log(urlEditPuntaje + "/"+ puntaje.id)
+      console.log(urlEditPuntaje + "/" + puntaje.id)
       // if (actitudesGestionComportamiento && ausenciaPuntualidad && calificacionLider && nps && especifico1 && especifico2 && comentario) {
-        this.http.put(`${urlEditPuntaje}/${puntaje.id}`, {
-          ausenciaPuntualidad, especifico1, especifico2, nps, actitudesGestionComportamiento, calificacionLider, comentario
-        }).subscribe({
-          next: () => {
-            Swal.fire(`Puntaje editado`, 'success');
-            setTimeout(() => {
-              this.ngOnInit();
-            }, 1000);
-          },
-        });
+      this.http.put(`${urlEditPuntaje}/${puntaje.id}`, {
+        ausenciaPuntualidad, especifico1, especifico2, nps, actitudesGestionComportamiento, calificacionLider, comentario
+      }).subscribe({
+        next: () => {
+          Swal.fire(`Puntaje editado`, 'success');
+          setTimeout(() => {
+            this.ngOnInit();
+          }, 1000);
+        },
+
+      });
       // } else {
-        // Swal.fire('Error', 'Por favor, completa todos los campos', 'error');
+      Swal.fire('Error', 'Por favor, completa todos los campos', 'error');
       // }
     });
   };
@@ -99,33 +101,72 @@ export class PuntajeComponent implements OnInit {
 
 
 
-showReport(id: number, comentario: string, calificacionLider: number) {
-  // let url="http://192.168.4.206:8082/api/empleado/";
-  let url = (this.env.empleados as any).urlLocal;
-  this.http.get(url + "/" + id).subscribe((response: any) => {
-    console.log(response)
-    let nombreEmpleado = response.nombre + " " + response.apellido;
-    let area = response.area.nombreArea;
-    let cargo = response.cargo.nombreCargo;
-    let mesDate = new Date(response.cargo.presupuesto.date)
-    let formatttedMonth = mesDate.toLocaleString('default', { month: 'long' });
-    let mes = formatttedMonth.charAt(0).toUpperCase() + String(formatttedMonth).slice(1);
-    let lider = sessionStorage.getItem("lider");
-    let montofinal = response.monto * (response.rendimiento / 100);
+  showReport(item:any,id: number, comentario: string, calificacionLider: number) {
+    console.log(item)
+    // let url="http://192.168.4.206:8082/api/empleado/";
+    let url = (this.env.empleados as any).urlLocal;
+    this.http.get(url + "/" + id).subscribe((response: any) => {
+      console.log(response)
+      let nombreEmpleado = response.nombre + " " + response.apellido;
+      let area = response.area.nombreArea;
+      let cargo = response.cargo.nombreCargo;
+      let mesDate = new Date(response.cargo.presupuesto.date)
+      let formatttedMonth = mesDate.toLocaleString('default', { month: 'long' });
+      let mes = formatttedMonth.charAt(0).toUpperCase() + String(formatttedMonth).slice(1);
+      let lider = sessionStorage.getItem("lider");
+      let montofinal = response.monto * (response.rendimiento / 100);
+      let rendimiento=item.empleado.rendimiento
 
-    this.http.post('http://localhost:8080/view-pdf', { nombreEmpleado, area, cargo, mes, lider, calificacionLider, montofinal, comentario }, { responseType: 'blob' })
-      .subscribe({
-        next: (response) => {
-          const blob = new Blob([response], { type: 'application/pdf' });
-          const url = window.URL.createObjectURL(blob);
-          window.open(url);
-        },
-        error: (error) => {
-          console.error('Error generating PDF:', error);
-        }
-      });
-  })
-}
+      this.http.post('http://192.168.4.206:8082/view-pdf', { nombreEmpleado, area, cargo, mes, lider, calificacionLider, montofinal, comentario, rendimiento }, { responseType: 'blob' })
+        .subscribe({
+          next: (response) => {
+            const blob = new Blob([response], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
+            window.open(url);
+          },
+          error: (error) => {
+            console.error('Error generating PDF:', error);
+          }
+        });
+    })
+  }
 
 
+  deletePuntaje(e: Event, id: number) {
+    e.preventDefault()
+    const url = (this.env.puntaje as any).urlLocal + "/" + id
+    Swal.fire({
+      title: "Esta seguro?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "red",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si,eliminar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.http.delete(url).subscribe({
+          next: () => {
+            Swal.fire(`Puntaje eliminado`, 'success');
+            setTimeout(() => {
+              this.ngOnInit();
+            }, 1000);
+            this.routes.navigate(["puntaje"]); // Revisar actualizacion al borrar
+          }
+        });
+
+      }
+    });
+  }
+
+  findByDate(monthString: string){
+    let [yearStr, monthStr] = monthString.split("-");
+    let mes: number = Number(monthStr)
+    let anio: number = Number(yearStr)
+    console.log(typeof(mes), anio);
+    let url="http://192.168.4.206:8082/api/puntaje/find";
+    this.http.post(url,{mes, anio}).subscribe(response=>{
+      this.puntajes=response;
+    })
+  }
 }

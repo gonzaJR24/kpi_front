@@ -10,9 +10,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./evaluar.component.css']
 })
 export class EvaluarComponent {
-
   data: any;
   empleados: any[] = [];
+  selectedEmpleado: string = '';
   
   // Variables para almacenar los valores de los inputs
   actitudesGestionComportamiento: number = 0;
@@ -22,29 +22,31 @@ export class EvaluarComponent {
   especifico1: number = 0;
   especifico2: number = 0;
   comentario: string = '';
+  fulldate: string = new Date().getFullYear() + "-" + (new Date().getMonth() + 1);
+  mes!:number;
+  anio!:number;
 
-  constructor(private http: HttpClient, private env: EnvironmentService, private route:Router) { }
+  constructor(private http: HttpClient, private env: EnvironmentService, private route: Router) {}
 
   ngOnInit(): void {
     const url = (this.env.empleados as any).urlLocal;
     this.http.get(url).subscribe(response => {
       if (response) {
         for (let empleado of response as any) {
-          this.empleados.push({ name: empleado.nombre + " " + empleado.apellido, id: empleado.id })
+          this.empleados.push({ name: empleado.nombre + " " + empleado.apellido, id: empleado.id });
         }
       }
     });
   }
 
-  addPuntajeAlert(e: Event) {
-    e.preventDefault();
-
-    const empleado = (document.getElementById('empleado') as HTMLSelectElement).value;
+  onSubmit(dateStr:string) {
+    let [yearStr, monthStr] = dateStr.split("-");
+    let mes: number = Number(monthStr)
+    let anio: number = Number(yearStr)
     const comentario = this.comentario;
-
     const url = (this.env.puntaje as any).urlLocal;
 
-    if (empleado !== '') {
+    if (this.selectedEmpleado !== '') {
       this.http.post(url, {
         ausenciaPuntualidad: this.ausenciaPuntualidad,
         especifico1: this.especifico1,
@@ -53,13 +55,18 @@ export class EvaluarComponent {
         actitudesGestionComportamiento: this.actitudesGestionComportamiento,
         calificacionLider: this.calificacionLider,
         comentario,
-        empleado
+        empleado: this.selectedEmpleado,
+        mes:mes,
+        anio:anio
       }).subscribe({
         next: () => {
-          Swal.fire(`Empleado evaluado`, 'success');
+          Swal.fire('Empleado evaluado', '', 'success');
+
           setTimeout(() => {
-            this.route.navigate(["evaluar"])
+            this.route.navigate(["evaluar"]);
+            this.resetForm();
           }, 1000);
+
         },
         error: (err) => {
           console.error('Error evaluando empleado:', err);
@@ -69,5 +76,16 @@ export class EvaluarComponent {
     } else {
       Swal.fire('Error', 'Por favor, completa todos los campos', 'error');
     }
+  }
+
+  resetForm() {
+    this.selectedEmpleado = '';
+    this.actitudesGestionComportamiento = 0;
+    this.ausenciaPuntualidad = 0;
+    this.calificacionLider = 0;
+    this.nps = 0;
+    this.especifico1 = 0;
+    this.especifico2 = 0;
+    this.comentario = '';
   }
 }
