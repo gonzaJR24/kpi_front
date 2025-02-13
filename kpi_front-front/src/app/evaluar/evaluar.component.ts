@@ -45,8 +45,9 @@ export class EvaluarComponent {
     let anio: number = Number(yearStr)
     const comentario = this.comentario;
     const url = (this.env.puntaje as any).urlLocal;
+    
 
-    if (this.selectedEmpleado !== '') {
+    if (this.selectedEmpleado !== '' && mes!=0 && anio!=0) {
       this.http.post(url, {
         ausenciaPuntualidad: this.ausenciaPuntualidad,
         especifico1: this.especifico1,

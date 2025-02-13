@@ -82,7 +82,7 @@ export class EnvironmentService {
   }
 
   usuarios:object={
-    urlLocal:"http://192.168.4.206:8082/api/usuario"
+    urlLocal:"http://192.168.4.206:8082/api/users"
   }
 
   sucursal:object={

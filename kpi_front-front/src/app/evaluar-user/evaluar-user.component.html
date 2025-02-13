@@ -11,6 +11,9 @@
             </select>
         </div>
 
+        <label for="startDateProd">Fecha reporte:</label>
+        <input id="startDateProd" name="startDateProd" class="form-control mb-3 mt-2" type="month" #date />
+
         <hr>
         <label for="actitudes">Actitudes</label>
         <app-radius 
@@ -46,7 +49,7 @@
         <textarea class="form-control" id="comentario" [(ngModel)]="comentario" name="comentario"></textarea>
 
         <div class="d-flex justify-content-center mb-4">
-            <button class="btn btn-primary mt-3" (click)="addPuntajeAlert($event)">Evaluar</button>
+            <button class="btn btn-primary mt-3" (click)="addPuntajeAlert($event, date.value)">Evaluar</button>
         </div>
     </form>
 </div>

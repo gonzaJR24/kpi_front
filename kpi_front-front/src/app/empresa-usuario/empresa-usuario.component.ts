@@ -11,8 +11,8 @@ import { Chart, registerables } from 'chart.js';
 export class EmpresaUsuarioComponent {
   imgUrl: string = "https://github.com/gonzaJR24/HTML-CSS/blob/main/menu/Logo-fondomorado.png?raw=true";
     date!: string;
-    progreso: any;
-    meta: any;
+    progreso!: number;
+    meta!: number;
     montoProductividad!: number;
     montoDireccionMedica!: number;
     montoOperaciones!: number;
@@ -21,6 +21,7 @@ export class EmpresaUsuarioComponent {
     montoContabilidad!: number;
     dataAreas: any = [];
     cumplimiento: number = 0;
+    montoPorDistribuir:number=0;
     grado1!:number;
     grado2!:number;
   
@@ -29,39 +30,42 @@ export class EmpresaUsuarioComponent {
     @ViewChild('myChart', { static: true }) myChart!: ElementRef;
   
     ngOnInit(): void {
-  
       this.http.get("http://192.168.4.206:8082/api/empresa").subscribe((response: any) => {
-        this.progreso = "RD$ " + response[0].progresoEmpresa;
-        this.meta = "RD$ " + response[0].valorMeta;
-        this.cumplimiento = (response[0].progresoEmpresa * 100) / response[0].valorMeta;
+        this.progreso = Number(response[0].progresoEmpresa);
+        this.meta = Number(response[0].valorMeta);
+        this.cumplimiento = (this.progreso * 100) / this.meta;
+  
+        this.montoPorDistribuir = this.progreso * 0.01;
+        if (this.cumplimiento >= 101) {
+          this.montoPorDistribuir = this.progreso * 0.02;
+        } else if (this.cumplimiento > 90) {
+          this.montoPorDistribuir = this.progreso * 0.01;
+        }
+  
+        // Formatear los valores para visualización
+        this.progreso =response[0].progresoEmpresa;
+        this.meta= response[0].valorMeta;
+  
         if (this.cumplimiento >= 50) {
           this.grado1 = 180;
           let residual = (this.cumplimiento * 3.6) - 180;
           this.grado2 = residual;
           document.documentElement.style.setProperty('--fin', this.grado1 + "deg");
           document.documentElement.style.setProperty('--fin2', this.grado2 + "deg");
-      } else {
+        } else {
           this.grado1 = this.cumplimiento * 3.6;
           document.documentElement.style.setProperty('--fin', this.grado1 + "deg");
-      }
-      
-  
-      })
+        }
+      });
   
       this.http.get("http://192.168.4.206:8082/api/area").subscribe((response: any) => {
         this.dataAreas = response;
         this.cargarDatos();
-      })
-  
+      });
   
       this.http.get("http://192.168.4.206:8082/api/presupuesto/ultimoPresupuesto").subscribe((response: any) => {
-        this.date=response.date;
-      })
-  
-      // this.http.get("http://localhost:8080/api/empleado/findByArea").subscribe(response=>{
-      //   console.log(response);
-      // })
-  
+        this.date = response.date;
+      });
     }
   
     mostrarGrafica() {
@@ -135,7 +139,7 @@ export class EmpresaUsuarioComponent {
     }
   
     redirectEmpresa() {
-      this.routes.navigate(['empresa'])
+      this.routes.navigate(['empresaUsuario'])
     }
   
     redirectEmpleadoBar() {

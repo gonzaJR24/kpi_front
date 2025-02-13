@@ -58,6 +58,8 @@ loadUserName() {
   logout() {
     localStorage.removeItem('sessionToken');
     localStorage.removeItem('userName');
+    sessionStorage.clear()
     this.router.navigate(['']);
+    
   }
 }

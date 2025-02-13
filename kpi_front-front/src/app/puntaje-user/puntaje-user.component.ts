@@ -15,8 +15,11 @@ puntajes: any;
   constructor(private http: HttpClient, private env: EnvironmentService) { }
   ngOnInit(): void {
     const url = (this.env.puntaje as any).urlLocal;
-    this.http.get(url).subscribe(response => {
-      this.puntajes = response;
+    this.http.get(url).subscribe((response:any) => {
+      this.puntajes = response.filter((puntaje: any) => {
+        return puntaje.empleado.area.nombreArea === sessionStorage.getItem("area");
+      })
+    console.log(this.puntajes);
     })
   }
 
@@ -99,32 +102,28 @@ puntajes: any;
 
  
 
-  showReport(id: number, comentario:string, calificacionLider:number) {
-    // let url="http://192.168.4.206:8082/api/empleado/";
-    const url = "http://192.168.4.206:8082/api/empleado/"
-    // let area = sessionStorage.getItem("area");
-    this.http.get(url + id).subscribe((response: any) => {
+    async showReport(item: any, id: number, comentario: string, calificacionLider: number) {
+      let url = (this.env.empleados as any).urlLocal;
+    
+      // Espera a que el backend actualice los datos
+      const response: any = await this.http.get(`${url}/update-and-get/${id}`).toPromise();
+      console.log(response);
+    
       let nombreEmpleado = response.nombre + " " + response.apellido;
       let area = response.area.nombreArea;
       let cargo = response.cargo.nombreCargo;
-      let mesDate=new Date(response.cargo.presupuesto.date)
-      let formatttedMonth=mesDate.toLocaleString('default', { month: 'long' });
+      let mesDate = new Date(response.cargo.presupuesto.date);
+      let formatttedMonth = mesDate.toLocaleString('default', { month: 'long' });
       let mes = formatttedMonth.charAt(0).toUpperCase() + String(formatttedMonth).slice(1);
       let lider = sessionStorage.getItem("lider");
-      let montofinal=response.monto*(response.rendimiento/100);
-
-      this.http.post('http://192.168.4.206:8082/view-pdf', {nombreEmpleado, area, cargo, mes, lider, calificacionLider, montofinal, comentario}, { responseType: 'blob' })
-      .subscribe({
-        next: (response) => {
-          const blob = new Blob([response], { type: 'application/pdf' });
-          const url = window.URL.createObjectURL(blob);
-          window.open(url);
-        },
-        error: (error) => {
-          console.error('Error generating PDF:', error);
-        }
-      });
-    })
-  }
+      let montofinal = response.monto * (response.rendimiento / 100);
+      let rendimiento = item.empleado.rendimiento;
+    
+      const pdfResponse: any = await this.http.post('http://192.168.4.206:8082/view-pdf', { nombreEmpleado, area, cargo, mes, lider, calificacionLider, montofinal, comentario, rendimiento }, { responseType: 'blob' }).toPromise();
+    
+      const blob = new Blob([pdfResponse], { type: 'application/pdf' });
+      const urlPdf = window.URL.createObjectURL(blob);
+      window.open(urlPdf);
+    }
 
 }

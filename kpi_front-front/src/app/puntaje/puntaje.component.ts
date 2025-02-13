@@ -15,6 +15,7 @@ export class PuntajeComponent implements OnInit {
   nombre!: string;
   constructor(private http: HttpClient, private env: EnvironmentService, private routes:Router) { }
   ngOnInit(): void {
+    this.routes.navigate(['puntaje'])
     // const url = (this.env.puntaje as any).urlLocal;
     // this.http.get(url).subscribe(response => {
     //   this.puntajes = response;
@@ -22,113 +23,73 @@ export class PuntajeComponent implements OnInit {
   }
 
   EditPuntajeAlert(e: Event, puntaje: any) {
-    e.preventDefault()
+    e.preventDefault();
 
     Swal.fire({
-      title: 'Editar Puntaje',
-      showConfirmButton: false,
-      html: `
+        title: 'Editar Puntaje',
+        showConfirmButton: false,
+        html: `
             <form id="editPuntajeForm">
-              <div class="mb-3">
-                <label for="actitudes" class="form-label">Actitudes</label>
-                <input type="number" class="form-control" id="actitudes" name='actitudes' min='0' max='10' value="${puntaje.actitudesGestionComportamiento}">
-              </div>
-              <div class="mb-3">
-                <label for="puntualidad" class="form-label">Puntualidad</label>
-                <input type="number" class="form-control" id="puntualidad" name='puntualidad' min='0' max='10' value="${puntaje.ausenciaPuntualidad}">
-              </div>
-              <div class="mb-3">
-                <label for="calificacionLider" class="form-label">Calificacion Lider</label>
-                <input type="number" class="form-control" id="calificacionLider" name='calificacionLider' min='0' max='10' value="${puntaje.calificacionLider}">
-              </div>
-              <div class="mb-3">
-                <label for="nps" class="form-label">NPS</label>
-                <input type="number" class="form-control" id="nps" name='nps' min='0' max='10' value="${puntaje.nps}">
-              </div>
-              <div class="mb-3">
-                <label for="especifico1" class="form-label">Especifico 1</label>
-                <input type="number" class="form-control" id="especifico1" name='especifico1' min='0' max='10' value="${puntaje.especifico1}">
-              </div>
-              <div class="mb-3">
-                <label for="especifico2" class="form-label">Especifico 2</label>
-                <input type="number" class="form-control" id="especifico2" name='especifico2' min='0' max='10' value="${puntaje.especifico2}">
-              </div>
-              <div class="mb-3">
-                <label for="comentario" class="form-label">Comentario</label>
-                <input type="text" class="form-control" id="comentario" name='comentario' value="${puntaje.comentario}">
-              </div>
-              <div>
-                <button type="submit" class="btn btn-primary" id='btn'>Enviar</button>
-              </div>
+                <!-- Campos del formulario -->
             </form>
-          `,
-      focusConfirm: false,
-    })
+        `,
+        focusConfirm: false,
+    });
+
     const form = document.getElementById('editPuntajeForm') as HTMLFormElement;
 
-    form?.addEventListener('submit', (submitEvent) => {
-      submitEvent.preventDefault();
+    form?.addEventListener('submit', async (submitEvent) => {
+        submitEvent.preventDefault();
 
-      const actitudesGestionComportamiento = (document.getElementById('actitudes') as HTMLInputElement).value;
-      const ausenciaPuntualidad = (document.getElementById('puntualidad') as HTMLInputElement).value;
-      const calificacionLider = (document.getElementById('calificacionLider') as HTMLInputElement).value;
-      const nps = (document.getElementById('nps') as HTMLInputElement).value;
-      const especifico1 = (document.getElementById('especifico1') as HTMLInputElement).value;
-      const especifico2 = (document.getElementById('especifico2') as HTMLInputElement).value;
-      const comentario = (document.getElementById('comentario') as HTMLInputElement).value;
+        const actitudesGestionComportamiento = (document.getElementById('actitudes') as HTMLInputElement).value;
+        const ausenciaPuntualidad = (document.getElementById('puntualidad') as HTMLInputElement).value;
+        const calificacionLider = (document.getElementById('calificacionLider') as HTMLInputElement).value;
+        const nps = (document.getElementById('nps') as HTMLInputElement).value;
+        const especifico1 = (document.getElementById('especifico1') as HTMLInputElement).value;
+        const especifico2 = (document.getElementById('especifico2') as HTMLInputElement).value;
+        const comentario = (document.getElementById('comentario') as HTMLInputElement).value;
 
-      const urlEditPuntaje = (this.env.puntaje as any).urlLocal;
-      console.log(urlEditPuntaje + "/" + puntaje.id)
-      // if (actitudesGestionComportamiento && ausenciaPuntualidad && calificacionLider && nps && especifico1 && especifico2 && comentario) {
-      this.http.put(`${urlEditPuntaje}/${puntaje.id}`, {
-        ausenciaPuntualidad, especifico1, especifico2, nps, actitudesGestionComportamiento, calificacionLider, comentario
-      }).subscribe({
-        next: () => {
-          Swal.fire(`Puntaje editado`, 'success');
-          setTimeout(() => {
-            this.ngOnInit();
-          }, 1000);
-        },
+        const urlEditPuntaje = (this.env.puntaje as any).urlLocal;
 
-      });
-      // } else {
-      Swal.fire('Error', 'Por favor, completa todos los campos', 'error');
-      // }
+        try {
+            await this.http.put(`${urlEditPuntaje}/${puntaje.id}`, {
+                ausenciaPuntualidad, especifico1, especifico2, nps, actitudesGestionComportamiento, calificacionLider, comentario
+            }).toPromise();
+
+            Swal.fire(`Puntaje editado`, 'success');
+            this.ngOnInit(); // Recargar los datos
+        } catch (error) {
+            Swal.fire('Error', 'No se pudo editar el puntaje', 'error');
+        }
     });
-  };
+}
 
 
 
 
 
-  showReport(item:any,id: number, comentario: string, calificacionLider: number) {
-    console.log(item)
-    // let url="http://192.168.4.206:8082/api/empleado/";
+  async showReport(item: any, id: number, comentario: string, calificacionLider: number) {
     let url = (this.env.empleados as any).urlLocal;
-    this.http.get(url + "/" + id).subscribe((response: any) => {
-      console.log(response)
-      let nombreEmpleado = response.nombre + " " + response.apellido;
-      let area = response.area.nombreArea;
-      let cargo = response.cargo.nombreCargo;
-      let mesDate = new Date(response.cargo.presupuesto.date)
-      let formatttedMonth = mesDate.toLocaleString('default', { month: 'long' });
-      let mes = formatttedMonth.charAt(0).toUpperCase() + String(formatttedMonth).slice(1);
-      let lider = sessionStorage.getItem("lider");
-      let montofinal = response.monto * (response.rendimiento / 100);
-      let rendimiento=item.empleado.rendimiento
-
-      this.http.post('http://192.168.4.206:8082/view-pdf', { nombreEmpleado, area, cargo, mes, lider, calificacionLider, montofinal, comentario, rendimiento }, { responseType: 'blob' })
-        .subscribe({
-          next: (response) => {
-            const blob = new Blob([response], { type: 'application/pdf' });
-            const url = window.URL.createObjectURL(blob);
-            window.open(url);
-          },
-          error: (error) => {
-            console.error('Error generating PDF:', error);
-          }
-        });
-    })
+  
+    // Espera a que el backend actualice los datos
+    const response: any = await this.http.get(`${url}/update-and-get/${id}`).toPromise();
+    console.log(response);
+  
+    let nombreEmpleado = response.nombre + " " + response.apellido;
+    let area = response.area.nombreArea;
+    let cargo = response.cargo.nombreCargo;
+    let mesDate = new Date(response.cargo.presupuesto.date);
+    let formatttedMonth = mesDate.toLocaleString('default', { month: 'long' });
+    let mes = formatttedMonth.charAt(0).toUpperCase() + String(formatttedMonth).slice(1);
+    let lider = sessionStorage.getItem("lider");
+    let montofinal = response.monto * (response.rendimiento / 100);
+    let rendimiento = item.empleado.rendimiento;
+  
+    const pdfResponse: any = await this.http.post('http://192.168.4.206:8082/view-pdf', { nombreEmpleado, area, cargo, mes, lider, calificacionLider, montofinal, comentario, rendimiento }, { responseType: 'blob' }).toPromise();
+  
+    const blob = new Blob([pdfResponse], { type: 'application/pdf' });
+    const urlPdf = window.URL.createObjectURL(blob);
+    window.open(urlPdf);
   }
 
 

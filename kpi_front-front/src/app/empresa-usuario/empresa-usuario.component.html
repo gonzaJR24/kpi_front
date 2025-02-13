@@ -25,13 +25,16 @@
 
         <div class="card-container">
             <div>
-                <app-card title="Monto Obtenido" color="#59056e" amount={{progreso}}></app-card>
+                <app-card title="Monto Obtenido" color="#59056e" amount={{progreso|currency}}></app-card>
             </div>
             <div>
-                <app-card title="Meta" color="green" amount={{meta}}></app-card>
+                <app-card title="Meta" color="green" amount={{meta|currency}}></app-card>
             </div>
             <div>
                 <app-card title="Fecha" color="orange" amount={{date}}></app-card>
+            </div>
+            <div>
+                <app-card title="Monto por distribuir" color="red" amount={{montoPorDistribuir|currency}}></app-card>
             </div>
         </div>
 

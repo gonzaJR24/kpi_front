@@ -36,15 +36,17 @@ data: any;
     });
   }
 
-  addPuntajeAlert(e: Event) {
+  addPuntajeAlert(e: Event, dateStr:string) {
     e.preventDefault();
 
     const empleado = (document.getElementById('empleado') as HTMLSelectElement).value;
     const comentario = this.comentario;
-
+    let [yearStr, monthStr] = dateStr.split("-");
+    let mes: number = Number(monthStr)
+    let anio: number = Number(yearStr)
     const url = (this.env.puntaje as any).urlLocal;
 
-    if (empleado !== '') {
+    if (empleado !== '' && mes!=0 && anio!=0) {
       this.http.post(url, {
         ausenciaPuntualidad: this.ausenciaPuntualidad,
         especifico1: this.especifico1,
@@ -53,7 +55,9 @@ data: any;
         actitudesGestionComportamiento: this.actitudesGestionComportamiento,
         calificacionLider: this.calificacionLider,
         comentario,
-        empleado
+        empleado,
+        mes,
+        anio
       }).subscribe({
         next: () => {
           Swal.fire(`Empleado evaluado`, 'success');
