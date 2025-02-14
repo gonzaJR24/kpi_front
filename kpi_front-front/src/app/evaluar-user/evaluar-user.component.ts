@@ -56,8 +56,9 @@ data: any;
         calificacionLider: this.calificacionLider,
         comentario,
         empleado,
-        mes,
-        anio
+        mes:mes,
+        anio:anio,
+        evaluador:sessionStorage.getItem("lider")
       }).subscribe({
         next: () => {
           Swal.fire(`Empleado evaluado`, 'success');

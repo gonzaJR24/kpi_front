@@ -1,27 +1,20 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { EnvironmentService } from '../environment.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-puntaje-user',
   templateUrl: './puntaje-user.component.html',
   styleUrl: './puntaje-user.component.css'
 })
-export class PuntajeUserComponent implements OnInit{
+export class PuntajeUserComponent{
 puntajes: any;
   data: any;
   nombre!: string;
-  constructor(private http: HttpClient, private env: EnvironmentService) { }
-  ngOnInit(): void {
-    const url = (this.env.puntaje as any).urlLocal;
-    this.http.get(url).subscribe((response:any) => {
-      this.puntajes = response.filter((puntaje: any) => {
-        return puntaje.empleado.area.nombreArea === sessionStorage.getItem("area");
-      })
-    console.log(this.puntajes);
-    })
-  }
+  constructor(private http: HttpClient, private env: EnvironmentService, private routes:Router) { }
+ 
 
    EditPuntajeAlert(e: Event, puntaje: any) {
       e.preventDefault()
@@ -80,32 +73,26 @@ puntajes: any;
         const comentario = (document.getElementById('comentario') as HTMLInputElement).value;
   
         const urlEditPuntaje = (this.env.puntaje as any).urlLocal;
-        console.log(urlEditPuntaje + "/"+ puntaje.id)
-        // if (actitudesGestionComportamiento && ausenciaPuntualidad && calificacionLider && nps && especifico1 && especifico2 && comentario) {
           this.http.put(`${urlEditPuntaje}/${puntaje.id}`, {
             ausenciaPuntualidad, especifico1, especifico2, nps, actitudesGestionComportamiento, calificacionLider, comentario
           }).subscribe({
             next: () => {
               Swal.fire(`Puntaje editado`, 'success');
-              setTimeout(() => {
-                this.ngOnInit();
-              }, 1000);
+              this.routes.navigate(["puntaje"]);
             },
   
           });
-        // } else {
           Swal.fire('Error', 'Por favor, completa todos los campos', 'error');
-        // }
       });
     };
   
 
  
 
-    async showReport(item: any, id: number, comentario: string, calificacionLider: number) {
+    async showReport(item: any, id: number, comentario: string, calificacionLider: number, date:string) {
+      this.findByDate(date)
       let url = (this.env.empleados as any).urlLocal;
     
-      // Espera a que el backend actualice los datos
       const response: any = await this.http.get(`${url}/update-and-get/${id}`).toPromise();
       console.log(response);
     
@@ -115,7 +102,7 @@ puntajes: any;
       let mesDate = new Date(response.cargo.presupuesto.date);
       let formatttedMonth = mesDate.toLocaleString('default', { month: 'long' });
       let mes = formatttedMonth.charAt(0).toUpperCase() + String(formatttedMonth).slice(1);
-      let lider = sessionStorage.getItem("lider");
+      let lider = response.evaluador
       let montofinal = response.monto * (response.rendimiento / 100);
       let rendimiento = item.empleado.rendimiento;
     
@@ -126,4 +113,39 @@ puntajes: any;
       window.open(urlPdf);
     }
 
+    findByDate(monthString: string){
+      let [yearStr, monthStr] = monthString.split("-");
+      let mes: number = Number(monthStr)
+      let anio: number = Number(yearStr)
+      console.log(typeof(mes), anio);
+      let url="http://192.168.4.206:8082/api/puntaje/find";
+      this.http.post(url,{mes, anio}).subscribe(response=>{
+        this.puntajes=response;
+      })
+    }
+
+    deletePuntaje(e: Event, id: number) {
+        console.log("borrando?");
+        e.preventDefault()
+        const url = (this.env.puntaje as any).urlLocal +"/"+ id
+        Swal.fire({
+          title: "Esta seguro?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "red",
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Si,eliminar"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.http.delete(url).subscribe({
+              next: () => {
+                Swal.fire(`Puntaje eliminado`, 'success');
+                  this.routes.navigate(["puntajeUsuario"]);
+              }
+            });
+    
+          }
+        });
+      }
 }

@@ -12,20 +12,20 @@ Chart.register(...registerables);
 })
 export class EmpresaComponent implements OnInit {
   imgUrl: string = "https://github.com/gonzaJR24/HTML-CSS/blob/main/menu/Logo-fondomorado.png?raw=true";
-  date!: string;
-  progreso!:number;
-  meta!:number;
-  montoProductividad!: number;
-  montoDireccionMedica!: number;
-  montoOperaciones!: number;
-  montoServiciosGenerales: any;
-  montoFacturacion: any;
-  montoContabilidad!: number;
-  dataAreas: any = [];
-  cumplimiento: number = 0;
-  montoPorDistribuir: number = 0;
-  grado1!: number;
-  grado2!: number;
+    date!: string;
+    progreso!: number;
+    meta!: number;
+    montoProductividad!: number;
+    montoDireccionMedica!: number;
+    montoOperaciones!: number;
+    montoServiciosGenerales: any
+    montoFacturacion: any
+    montoContabilidad!: number;
+    dataAreas: any = [];
+    cumplimiento: number = 0;
+    montoPorDistribuir:number=0;
+    grado1!:number;
+    grado2!:number;
 
   constructor(private routes: Router, private http: HttpClient) { }
 
@@ -71,29 +71,31 @@ export class EmpresaComponent implements OnInit {
   }
 
   mostrarGrafica() {
+    // Crear el gráfico después de que la vista esté inicializada
     new Chart(this.myChart.nativeElement, {
       type: 'bar',
       data: {
-        labels: ['Productividad', 'Direccion Medica', 'Operaciones', 'Facturacion', 'Contabilidad'],
+        labels: ['Productividad', 'Operaciones', 'Servicios Generales', 'Facturacion', 'Contabilidad'],
         datasets: [{
           label: '% Rendimiento',
-          data: [this.montoProductividad, this.montoDireccionMedica, this.montoOperaciones, this.montoFacturacion, this.montoContabilidad],
+          data: [this.montoProductividad, this.montoOperaciones, this.montoServiciosGenerales, this.montoFacturacion, this.montoContabilidad],
           backgroundColor: [
-            'rgb(248, 44, 89)',
-            'rgba(75, 192, 192, 0.88)',
-            'rgba(255, 207, 86, 0.89)',
+            'rgba(248, 61, 101, 0.9)',
+            'rgba(248, 148, 17, 0.93)',
+            'rgba(14, 170, 0, 0.96)',
             'rgba(153, 102, 255, 0.88)',
-            'rgb(255, 148, 41)'
+            'rgba(20, 204, 236, 0.97)'
           ],
-        }, {
+
+        },{
           type: 'line', // Line dataset
           label: '',
-          data: [this.montoProductividad, this.montoDireccionMedica, this.montoOperaciones, this.montoFacturacion, this.montoContabilidad],
+          data: [this.montoProductividad, this.montoOperaciones, this.montoServiciosGenerales, this.montoFacturacion, this.montoContabilidad],
           borderColor: 'rgb(238, 234, 0)',
           borderWidth: 3,
           fill: true,
           tension: 0.6, // Smoother line
-        }]
+        },]
       },
       options: {
         scales: {
@@ -109,24 +111,28 @@ export class EmpresaComponent implements OnInit {
     for (let area of this.dataAreas) {
       switch (area.nombreArea) {
         case "Productividad":
-          this.montoProductividad = area.rendimientoArea * 10;
+          this.montoProductividad = Number(area.rendimientoArea * 10)
           break;
         case "Direccion Medica":
-          this.montoDireccionMedica = area.rendimientoArea * 10;
+          this.montoDireccionMedica = area.rendimientoArea * 10
           break;
         case "Operaciones":
           this.montoOperaciones = area.rendimientoArea * 10;
           break;
+        case "Servicios Generales":
+          this.montoServiciosGenerales = area.rendimientoArea * 10
+          break;
         case "Facturacion":
-          this.montoFacturacion = area.rendimientoArea * 10;
+          this.montoFacturacion = area.rendimientoArea * 10
           break;
         case "Contabilidad":
-          this.montoContabilidad = area.rendimientoArea * 10;
+          this.montoContabilidad = Number(area.rendimientoArea * 10)
           break;
       }
     }
 
-    this.mostrarGrafica();
+    this.mostrarGrafica()
+
   }
 
   redirectEmpresaBar() {

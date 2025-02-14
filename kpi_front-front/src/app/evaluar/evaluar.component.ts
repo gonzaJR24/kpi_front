@@ -58,7 +58,8 @@ export class EvaluarComponent {
         comentario,
         empleado: this.selectedEmpleado,
         mes:mes,
-        anio:anio
+        anio:anio,
+        evaluador:sessionStorage.getItem("lider")
       }).subscribe({
         next: () => {
           Swal.fire('Empleado evaluado', '', 'success');

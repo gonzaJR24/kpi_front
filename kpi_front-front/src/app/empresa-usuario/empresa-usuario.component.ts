@@ -73,23 +73,22 @@ export class EmpresaUsuarioComponent {
       new Chart(this.myChart.nativeElement, {
         type: 'bar',
         data: {
-          labels: ['Productividad', 'Direccion Medica', 'Operaciones', 'Servicios Generales', 'Facturacion', 'Contabilidad'],
+          labels: ['Productividad', 'Operaciones', 'Servicios Generales', 'Facturacion', 'Contabilidad'],
           datasets: [{
             label: '% Rendimiento',
-            data: [this.montoProductividad, this.montoDireccionMedica, this.montoOperaciones, this.montoServiciosGenerales, this.montoFacturacion, this.montoContabilidad],
+            data: [this.montoProductividad, this.montoOperaciones, this.montoServiciosGenerales, this.montoFacturacion, this.montoContabilidad],
             backgroundColor: [
-              'rgba(255, 99, 133, 0.78)',
-              'rgba(212, 235, 251, 0.88)',
-              'rgba(255, 207, 86, 0.89)',
-              'rgba(75, 192, 192, 0.88)',
+              'rgba(248, 61, 101, 0.9)',
+              'rgba(248, 148, 17, 0.93)',
+              'rgba(14, 170, 0, 0.96)',
               'rgba(153, 102, 255, 0.88)',
-              'rgba(255, 160, 64, 0.9)'
+              'rgba(20, 204, 236, 0.97)'
             ],
   
           },{
             type: 'line', // Line dataset
             label: '',
-            data: [this.montoProductividad, this.montoDireccionMedica, this.montoOperaciones, this.montoServiciosGenerales, this.montoFacturacion, this.montoContabilidad],
+            data: [this.montoProductividad, this.montoOperaciones, this.montoServiciosGenerales, this.montoFacturacion, this.montoContabilidad],
             borderColor: 'rgb(238, 234, 0)',
             borderWidth: 3,
             fill: true,
