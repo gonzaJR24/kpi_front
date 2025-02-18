@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { EnvironmentService } from '../environment.service';
 import { forkJoin } from 'rxjs';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-usuario',
@@ -14,9 +15,12 @@ export class UsuarioComponent implements OnInit{
   data:any;
   tipoUsuario:any;
   area:any;
-  constructor(private http:HttpClient, private env:EnvironmentService){}
+  constructor(private http:HttpClient, private env:EnvironmentService, private router:Router){}
 
   ngOnInit(): void {
+    if(sessionStorage.getItem("lider")==null){
+      this.router.navigate([""])
+    }
     const url=(this.env.usuarios as any).urlLocal;
     this.http.get(url).subscribe(response=>{
       this.usuarios=response

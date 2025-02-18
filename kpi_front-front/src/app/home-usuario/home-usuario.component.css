@@ -2,6 +2,7 @@
     background-color: rgb(70, 21, 148);
     color: white;
     padding: 4px;
+    position: sticky;
 }
 
 .nav_ul{

@@ -15,6 +15,9 @@ export class HomeUsuarioComponent {
   constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit() {
+    if(sessionStorage.getItem("lider")==null){
+      this.router.navigate([""])
+    }
     // Initial load of the username
     this.loadUserName();
 

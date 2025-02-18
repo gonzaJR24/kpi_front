@@ -18,6 +18,9 @@ export class EmpleadosComponent implements OnInit{
   constructor(private http:HttpClient, private env:EnvironmentService, private routes:Router){}
 
   ngOnInit(): void {
+    if(sessionStorage.getItem("lider")==null){
+      this.routes.navigate([""])
+    }
     const url=(this.env.empleados as any).urlLocal;
     this.http.get(url).subscribe(response=>{
       this.empleados=response;

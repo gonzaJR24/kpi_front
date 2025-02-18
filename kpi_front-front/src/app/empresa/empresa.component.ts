@@ -32,6 +32,9 @@ export class EmpresaComponent implements OnInit {
   @ViewChild('myChart', { static: true }) myChart!: ElementRef;
 
   ngOnInit(): void {
+    if(sessionStorage.getItem("lider")==null){
+      this.routes.navigate([""])
+    }
     this.http.get("http://192.168.4.206:8082/api/empresa").subscribe((response: any) => {
       this.progreso = Number(response[0].progresoEmpresa);
       this.meta = Number(response[0].valorMeta);

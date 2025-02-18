@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EnvironmentService } from '../environment.service';
 
@@ -9,8 +9,13 @@ import { EnvironmentService } from '../environment.service';
   templateUrl: './update-progress.component.html',
   styleUrl: './update-progress.component.css'
 })
-export class UpdateProgressComponent {
+export class UpdateProgressComponent implements OnInit{
  constructor(private routes: Router, private http: HttpClient, private env:EnvironmentService) { }
+  ngOnInit(): void {
+    if(sessionStorage.getItem("lider")==null){
+      this.routes.navigate([""])
+    }
+  }
 
   redirectEmpresa() {
     this.routes.navigate(['empresa'])

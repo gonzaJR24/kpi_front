@@ -15,7 +15,11 @@ export class AreaComponent implements OnInit {
   data: any;
   constructor(private http: HttpClient, private env: EnvironmentService, private router: Router) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void 
+  {
+    if(sessionStorage.getItem("lider")==null){
+      this.router.navigate([""])
+    }
     const url = (this.env.areas as any).urlLocal;
     this.http.get(url).subscribe(response => {
       this.areaResponse = response;
