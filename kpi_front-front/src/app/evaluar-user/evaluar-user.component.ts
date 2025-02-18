@@ -1,19 +1,19 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EnvironmentService } from '../environment.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-evaluar-user',
+  selector: 'app-evaluar',
   templateUrl: './evaluar-user.component.html',
   styleUrls: ['./evaluar-user.component.css']
 })
-export class EvaluarUserComponent {
+export class EvaluarUserComponent implements OnInit {
   data: any;
   empleados: any[] = [];
+  selectedEmpleado: string = '';
 
-  // Variables para almacenar los valores de los inputs
   actitudesGestionComportamiento: number = 0;
   ausenciaPuntualidad: number = 0;
   calificacionLider: number = 0;
@@ -21,77 +21,90 @@ export class EvaluarUserComponent {
   especifico1: number = 0;
   especifico2: number = 0;
   comentario: string = '';
+  fulldate: string;
 
-  constructor(private http: HttpClient, private env: EnvironmentService, private route: Router) { }
+  constructor(private http: HttpClient, private env: EnvironmentService, private route: Router) {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    this.fulldate = `${year}-${month}`;
+  }
 
   ngOnInit(): void {
-    if (sessionStorage.getItem("lider") == null) {
-      this.route.navigate([""])
+    if (!sessionStorage.getItem("lider")) {
+      this.route.navigate([""]);
+      return;
     }
-    const url = "http://192.168.4.206:8082/api/empleado/findByArea";
-    let area = sessionStorage.getItem("area");
-    this.http.post(url, { area }).subscribe(response => {
-      if (response) {
-        for (let empleado of response as any) {
-          this.empleados.push({ name: empleado.nombre + " " + empleado.apellido, id: empleado.id });
-        }
 
-        // Ordenar los empleados por nombre
-        this.empleados.sort((a, b) => a.name.localeCompare(b.name));
+    const url = "http://192.168.4.206:8082/api/empleado/findByArea";
+    const area = sessionStorage.getItem("area");
+    this.http.post(url, { area }).subscribe({
+      next: (response) => {
+        this.empleados = (response as any[]).map(empleado => ({
+          name: `${empleado.nombre} ${empleado.apellido}`,
+          id: empleado.id
+        })).sort((a, b) => a.name.localeCompare(b.name));
+      },
+      error: (err) => {
+        console.error('Error cargando empleados:', err);
+        Swal.fire('Error', 'No se pudieron cargar los empleados', 'error');
       }
+    });
+  
+
+    this.http.get(url).subscribe({
+      next: (response) => {
+        this.empleados = (response as any[]).map(empleado => ({
+          name: `${empleado.nombre} ${empleado.apellido}`,
+          id: empleado.id
+        })).sort((a, b) => a.name.localeCompare(b.name));
+      },
     });
   }
 
-  addPuntajeAlert(e: Event, dateStr: string) {
-    e.preventDefault();
+  async onSubmit(dateStr: string) {
+    const [yearStr, monthStr] = dateStr.split("-");
+    const mes = Number(monthStr);
+    const anio = Number(yearStr);
 
-    const empleado = (document.getElementById('empleado') as HTMLSelectElement).value;
-    const comentario = this.comentario;
-    let [yearStr, monthStr] = dateStr.split("-");
-    let mes: number = Number(monthStr);
-    let anio: number = Number(yearStr);
+   
     const url = (this.env.puntaje as any).urlLocal;
-
-    if (empleado !== '' && mes !== 0 && anio !== 0) {
-      this.http.post(url, {
+    try {
+      await this.http.post(url, {
         ausenciaPuntualidad: this.ausenciaPuntualidad,
         especifico1: this.especifico1,
         especifico2: this.especifico2,
         nps: this.nps,
         actitudesGestionComportamiento: this.actitudesGestionComportamiento,
         calificacionLider: this.calificacionLider,
-        comentario,
-        empleado,
+        comentario: this.comentario,
+        empleado: this.selectedEmpleado,
         mes: mes,
         anio: anio,
         evaluador: sessionStorage.getItem("lider")
-      }).subscribe({
-        next: () => {
-          
-           this.resetForm();
-                Swal.fire({
-                  title: "Empleado Evaluado :)",
-                  width: 600,
-                  padding: "3em",
-                  color: "#716add",
-                });
-                setTimeout(() => {
-                  window.location.reload();
-                }, 2000);
-        },
-        error: (err) => {
-          console.error('Error evaluando empleado:', err);
-          Swal.fire('Error', 'No se pudo agregar el usuario', 'error');
-        }
+      }).toPromise();
+
+   
+      this.resetForm();
+      Swal.fire({
+        title: "Empleado Evaluado :)",
+        width: 600,
+        padding: "3em",
+        color: "#716add",
       });
-    } else {
-      Swal.fire('Error', 'Por favor, completa todos los campos', 'error');
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+      window.location.reload();
+
+    } catch (err) {
+      console.error('Error evaluando empleado:', err);
+      Swal.fire('Error', 'No se pudo guardar la evaluación', 'error');
     }
   }
 
   resetForm() {
-    let empleado = (document.getElementById('empleado') as HTMLSelectElement);
-    empleado.value = '';
+    this.selectedEmpleado = '';
     this.actitudesGestionComportamiento = 0;
     this.ausenciaPuntualidad = 0;
     this.calificacionLider = 0;

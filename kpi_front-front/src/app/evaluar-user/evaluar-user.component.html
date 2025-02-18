@@ -1,55 +1,49 @@
 <app-home-usuario></app-home-usuario>
 <div class="container col-8">
-    <h2 class="text-center mt-3 mb-5">Evaluar Empleado</h2>
+  <h2 class="text-center mt-3 mb-5">Evaluar Empleado</h2>
 
-    <form>
-        <label for="empleado">Seleccionar Empleado</label>
-        <div>
-            <select class="form-select form-select-sm mb-3" id="empleado" name="empleado">
-                <option selected>--seleccione empleado--</option>
-                <option *ngFor="let item of empleados" value={{item.id}}>{{item.name}}</option>
-            </select>
-        </div>
+  <form>
+    <label for="empleado">Seleccionar Empleado</label>
+    <select id="empleado" class="form-select" [(ngModel)]="selectedEmpleado" name="empleado">
+      <option value="">Seleccione un empleado</option>
+      <option *ngFor="let empleado of empleados" [value]="empleado.id">
+        {{ empleado.name }}
+      </option>
+    </select>
 
-        <label for="startDateProd">Fecha reporte:</label>
-        <input id="startDateProd" name="startDateProd" class="form-control mb-3 mt-2" type="month" #date />
+    <label for="startDateProd">Fecha reporte:</label>
+    <input id="startDateProd" name="startDateProd" class="form-control mb-3 mt-2" type="month" #date />
 
-        <hr>
-        <label for="actitudes">Actitudes</label>
-        <app-radius 
-          [(selectedValue)]="actitudesGestionComportamiento">
-        </app-radius>
-        
-        <label for="puntualidad">Puntualidad</label>
-        <app-radius 
-          [(selectedValue)]="ausenciaPuntualidad">
-        </app-radius>
-        
-        <label for="calificacionLider">Calificación Líder</label>
-        <app-radius 
-          [(selectedValue)]="calificacionLider">
-        </app-radius>
-        
-        <label for="nps">NPS</label>
-        <app-radius 
-          [(selectedValue)]="nps">
-        </app-radius>
-        
-        <label for="especifico1">Especifico 1</label>
-        <app-radius 
-          [(selectedValue)]="especifico1">
-        </app-radius>
-        
-        <label for="especifico2">Especifico 2</label>
-        <app-radius 
-          [(selectedValue)]="especifico2">
-        </app-radius>
-        
-        <label for="comentario">Comentario</label>
-        <textarea class="form-control" id="comentario" [(ngModel)]="comentario" name="comentario"></textarea>
+    <hr>
+    <label for="actitudes">Actitudes</label>
+    <app-radius [(selectedValue)]="actitudesGestionComportamiento">
+    </app-radius>
 
-        <div class="d-flex justify-content-center mb-4">
-            <button class="btn btn-primary mt-3" (click)="addPuntajeAlert($event, date.value)">Evaluar</button>
-        </div>
-    </form>
+    <label for="puntualidad">Puntualidad</label>
+    <app-radius [(selectedValue)]="ausenciaPuntualidad">
+    </app-radius>
+
+    <label for="calificacionLider">Calificación Líder</label>
+    <app-radius [(selectedValue)]="calificacionLider">
+    </app-radius>
+
+    <label for="nps">NPS</label>
+    <app-radius [(selectedValue)]="nps">
+    </app-radius>
+
+    <label for="especifico1">Especifico 1</label>
+    <app-radius [(selectedValue)]="especifico1">
+    </app-radius>
+
+    <label for="especifico2">Especifico 2</label>
+    <app-radius [(selectedValue)]="especifico2">
+    </app-radius>
+
+    <label for="comentario">Comentario</label>
+    <textarea class="form-control" id="comentario" [(ngModel)]="comentario" name="comentario"></textarea>
+
+    <div class="d-flex justify-content-center mb-4">
+      <button class="btn btn-primary mt-3" (click)="onSubmit(date.value)">Evaluar</button>
+    </div>
+  </form>
 </div>
